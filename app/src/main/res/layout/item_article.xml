@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="abc" />
+            type="" />
     </data>
     <TextView
         android:id="@+id/item_article_name"
