@@ -13,6 +13,7 @@ import com.will.pviewer.setting.DATABASE_NAME
 abstract class AppDatabase: RoomDatabase() {
     abstract fun articleDao(): ArticleDao
     abstract fun pictureDao(): PictureDao
+    abstract fun articleWithPicturesDao(): ArticleWithPicturesDao
 
     companion object{
         @Volatile private var instance: AppDatabase? = null

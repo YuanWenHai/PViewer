@@ -1,11 +1,16 @@
 package com.will.pviewer.data
 
+import androidx.lifecycle.LiveData
+
 /**
  * created  by will on 2020/8/23 15:32
  */
 class ArticleWithPicturesRepository private constructor(
-    val dao: ArticleWithPicturesDao
+    private val dao: ArticleWithPicturesDao
 ){
+
+    fun getArticleWithPicturesById(id: Int) = dao.getArticleWithPicturesById(id)
+    fun getAllArticles() = dao.getAllArticlesWithPictures()
 
     companion object {
         @Volatile private var instance: ArticleWithPicturesRepository? = null

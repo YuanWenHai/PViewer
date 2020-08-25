@@ -5,11 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="" />
+            type="com.will.pviewer.viewmodels.ArticleViewModel" />
     </data>
     <TextView
         android:id="@+id/item_article_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@{viewModel.name}"
+        />
 
 </layout>
