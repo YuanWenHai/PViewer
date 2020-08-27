@@ -12,6 +12,8 @@ class ArticleWithPicturesRepository private constructor(
     fun getArticleWithPicturesById(id: Int) = dao.getArticleWithPicturesById(id)
     fun getAllArticles() = dao.getAllArticlesWithPictures()
 
+
+
     companion object {
         @Volatile private var instance: ArticleWithPicturesRepository? = null
 

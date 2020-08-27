@@ -16,8 +16,9 @@ interface ArticleWithPicturesDao {
     fun getArticleWithPicturesById(id: Int): LiveData<ArticleWithPictures>
 
     //todo
-    fun getArticlesWithPicturesByPage(pageSize: Int,pageCount: Int): LiveData<List<ArticleWithPictures>>
+    //fun getArticlesWithPicturesByPage(pageSize: Int,pageCount: Int): LiveData<List<ArticleWithPictures>>
 
+    @Transaction
     @Query("SELECT * FROM articles")
     fun getAllArticlesWithPictures(): LiveData<List<ArticleWithPictures>>
 }

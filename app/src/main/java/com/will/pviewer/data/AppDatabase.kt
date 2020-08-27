@@ -9,7 +9,7 @@ import com.will.pviewer.setting.DATABASE_NAME
 /**
  * created  by will on 2020/8/23 14:52
  */
-@Database(entities = [Article::class, Picture::class],version = 1)
+@Database(entities = [Article::class, Picture::class],version = 1,exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun articleDao(): ArticleDao
     abstract fun pictureDao(): PictureDao

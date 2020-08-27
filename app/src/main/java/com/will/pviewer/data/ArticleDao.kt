@@ -2,6 +2,7 @@ package com.will.pviewer.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 
 /**
@@ -10,10 +11,17 @@ import androidx.room.Query
 @Dao
 interface ArticleDao {
 
-    fun getArticlesByPage(pageSize: Int,pageCount: Int ): LiveData<List<Article>>
-    fun getArticlesByAuthor(author: String): LiveData<List<Article>>
+    //fun getArticlesByPage(pageSize: Int,pageCount: Int ): LiveData<List<Article>>
+    //fun getArticlesByAuthor(author: String): LiveData<List<Article>>
 
 
     @Query("SELECT * FROM articles WHERE id = :id LIMIT 1")
     fun getArticleById(id: Int): LiveData<Article>
+
+
+    @Insert
+    fun insertArticle(article: Article)
+
+    @Insert
+    fun insertArticles(articles: List<Article>)
 }

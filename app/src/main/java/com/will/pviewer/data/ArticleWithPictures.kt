@@ -8,7 +8,7 @@ import androidx.room.Relation
  */
 data class ArticleWithPictures(
     @Embedded val article: Article,
-    @Relation(parentColumn = "id",entityColumn = "parentId")
+    @Relation(parentColumn = "id",entityColumn = "articleId")
     val pictureList: List<Picture>
 ){
 

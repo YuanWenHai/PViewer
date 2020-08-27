@@ -7,7 +7,7 @@ import com.will.pviewer.data.ArticleWithPicturesRepository
 /**
  * created  by will on 2020/8/23 15:57
  */
-class ArticleViewModel(private val articleWithPictures: ArticleWithPictures){
+class ArticleViewModel( val articleWithPictures: ArticleWithPictures){
     private val article = articleWithPictures.article
     private val pictures = articleWithPictures.pictureList
 
