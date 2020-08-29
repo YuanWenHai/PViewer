@@ -18,6 +18,11 @@ interface ArticleDao {
     @Query("SELECT * FROM articles WHERE id = :id LIMIT 1")
     fun getArticleById(id: Int): LiveData<Article>
 
+    @Query("SELECT * FROM articles")
+    fun getAllArticles(): LiveData<List<Article>>
+
+    @Query("SELECT COUNT(*) FROM articles")
+    fun getArticleCount(): Int
 
     @Insert
     fun insertArticle(article: Article)

@@ -1,6 +1,8 @@
 package com.will.pviewer
 
+import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +15,13 @@ import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.viewmodels.ArticleListViewModel
 import com.will.pviewer.viewmodels.ArticleListViewModelFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * created  by will on 2020/8/23 16:29
  */
-class ArticleListFragment: Fragment() {
+class ArticleListFragment(val type: Int): Fragment() {
 
     private val viewModel: ArticleListViewModel by viewModels{
         ArticleListViewModelFactory(ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()))
@@ -33,7 +37,7 @@ class ArticleListFragment: Fragment() {
         val adapter = ArticleListAdapter()
         binding.fragmentArticleListRecycler.adapter = adapter
         binding.fragmentArticleListButton.setOnClickListener{
-            Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
+            Thread{makeFakeData()}.start()
         }
         subscribeUi(adapter)
         return binding.root
@@ -44,10 +48,24 @@ class ArticleListFragment: Fragment() {
         }
     }
     private fun makeFakeData(){
-        val article = Article(999,"Test Article","Will","2020年8月27日19:59:28",5)
+        val db = AppDatabase.getInstance(requireContext())
+        if(db.articleDao().getArticleCount() >= 5){
+            return
+        }
+        val id: Int = Date().time.toInt()
+        val article = Article(id,"Test Article: $id","Will","2020年8月27日19:59:28",5)
         val pictures: ArrayList<Picture> = ArrayList()
         for(i in 0..5){
-            pictures.add(Picture(i,999,"fake",131,"testpic:${i}"))
+            pictures.add(Picture(id-i,id,"fake",131,"testpic:${i}"))
         }
+        ArticleRepository.getInstance(db.articleDao()).insertArticle(article)
+        PictureRepository.getInstance(db.pictureDao()).insertPictures(pictures)
+        requireActivity().runOnUiThread{Toast.makeText(context,"added",Toast.LENGTH_SHORT).show()}
+
+    }
+    companion object{
+        val TYPE_SELFIE = 0
+        val TYPE_POST = 1
+        val TYPE_FAVORITE = 2
     }
 }

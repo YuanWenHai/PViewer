@@ -43,14 +43,13 @@ private class ArticleDiffCallback: DiffUtil.ItemCallback<ArticleWithPictures> ()
         oldItem: ArticleWithPictures,
         newItem: ArticleWithPictures
     ): Boolean {
-        return oldItem.article.author == newItem.article.author &&
-                oldItem.article.name == newItem.article.name
+        return oldItem.article.id == newItem.article.id
     }
 
     override fun areContentsTheSame(
         oldItem: ArticleWithPictures,
         newItem: ArticleWithPictures
     ): Boolean {
-        return oldItem.article == newItem.article
+        return oldItem.article.id == newItem.article.id
     }
 }

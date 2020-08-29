@@ -4,7 +4,7 @@ class PictureRepository private constructor(private val dao: PictureDao){
 
 
     fun insertPicture(picture: Picture) = dao.insertPicture(picture)
-    fun insetPictures(pictures: List<Picture>) = dao.insertPictures(pictures)
+    fun insertPictures(pictures: List<Picture>) = dao.insertPictures(pictures)
 
 
     companion object{
