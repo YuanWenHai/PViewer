@@ -10,10 +10,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "articles")
 
 data class Article @JvmOverloads constructor(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
     val author: String,
     val publishTime: String,
     val picCount: Int,
+    val link: String,
     @Ignore val pics: List<Picture>? = null
 ) {}

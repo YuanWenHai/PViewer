@@ -53,10 +53,10 @@ class ArticleListFragment(val type: Int): Fragment() {
             return
         }
         val id: Int = Date().time.toInt()
-        val article = Article(id,"Test Article: $id","Will","2020年8月27日19:59:28",5)
+        val article = Article(id,"Test Article: $id","Will","2020年8月27日19:59:28",5,"link: $id")
         val pictures: ArrayList<Picture> = ArrayList()
         for(i in 0..5){
-            pictures.add(Picture(id-i,id,"fake",131,"testpic:${i}"))
+            pictures.add(Picture(id-i,id,"fake",131,"testpic:${i}","url:$id"))
         }
         ArticleRepository.getInstance(db.articleDao()).insertArticle(article)
         PictureRepository.getInstance(db.pictureDao()).insertPictures(pictures)
