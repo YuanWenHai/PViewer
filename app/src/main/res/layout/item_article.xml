@@ -5,11 +5,16 @@
         <variable
             name="viewModel"
             type="com.will.pviewer.viewmodels.ArticleViewModel" />
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:onClick="@{clickListener}"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

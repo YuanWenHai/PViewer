@@ -1,11 +1,14 @@
 package com.will.pviewer.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.will.pviewer.ARTICLE_ACTIVITY_DATA
+import com.will.pviewer.ArticleActivity
 import com.will.pviewer.R
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.databinding.ItemArticleBinding
@@ -26,7 +29,10 @@ class ArticleListAdapter: ListAdapter<ArticleWithPictures,ArticleListAdapter.Vie
 
     class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
         init {
-
+            binding.setClickListener {
+                val intent = Intent(binding.root.context,ArticleActivity::class.java)
+                binding.itemArticleName.context.startActivity(intent)
+            }
         }
         fun bind(articleWithPictures: ArticleWithPictures){
             with(binding){
