@@ -1,6 +1,7 @@
 package com.will.pviewer.data
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -20,5 +21,9 @@ interface ArticleWithPicturesDao {
 
     @Transaction
     @Query("SELECT * FROM articles")
-    fun getAllArticlesWithPictures(): LiveData<List<ArticleWithPictures>>
+    fun getAllArticleWithPictures(): LiveData<List<ArticleWithPictures>>
+
+    @Transaction
+    @Query("SELECT * FROM articles")
+    fun getAllArticleWithPicturesInPaging(): PagingSource<Int,ArticleWithPictures>
 }

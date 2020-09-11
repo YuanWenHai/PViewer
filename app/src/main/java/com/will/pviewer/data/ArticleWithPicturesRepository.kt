@@ -1,7 +1,5 @@
 package com.will.pviewer.data
 
-import androidx.lifecycle.LiveData
-
 /**
  * created  by will on 2020/8/23 15:32
  */
@@ -10,8 +8,8 @@ class ArticleWithPicturesRepository private constructor(
 ){
 
     fun getArticleWithPicturesById(id: Int) = dao.getArticleWithPicturesById(id)
-    fun getAllArticles() = dao.getAllArticlesWithPictures()
-
+    fun getAllArticles() = dao.getAllArticleWithPictures()
+    fun getAllArticlesInPaging() = dao.getAllArticleWithPicturesInPaging()
 
 
     companion object {

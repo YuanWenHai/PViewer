@@ -15,6 +15,6 @@ class NavigationPagerAdapter(activity: FragmentActivity): FragmentStateAdapter(a
     }
 
     override fun createFragment(position: Int): Fragment {
-        return ArticleListFragment(position)
+        return ArticleListFragment.getInstance(position)
     }
 }

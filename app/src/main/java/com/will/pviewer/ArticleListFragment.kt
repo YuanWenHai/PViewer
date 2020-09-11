@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.will.pviewer.adapter.ArticleListAdapter
+import com.will.pviewer.adapter.LocalArticleListAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.viewmodels.ArticleListViewModel
@@ -21,12 +24,21 @@ import kotlin.collections.ArrayList
 /**
  * created  by will on 2020/8/23 16:29
  */
-class ArticleListFragment(val type: Int): Fragment() {
+class ArticleListFragment private  constructor(): Fragment() {
+
 
     private val viewModel: ArticleListViewModel by viewModels{
         ArticleListViewModelFactory(ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()))
     }
 
+    fun getAdapter(): RecyclerView.Adapter<out RecyclerView.ViewHolder>{
+        return when(getType(this)){
+            TYPE_SELFIE -> ArticleListAdapter()
+            TYPE_POST -> ArticleListAdapter()
+            TYPE_FAVORITE -> LocalArticleListAdapter()
+            else -> ArticleListAdapter()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,8 +76,21 @@ class ArticleListFragment(val type: Int): Fragment() {
 
     }
     companion object{
-        val TYPE_SELFIE = 0
-        val TYPE_POST = 1
-        val TYPE_FAVORITE = 2
+        const val TYPE_SELFIE = 0
+        const val TYPE_POST = 1
+        const val TYPE_FAVORITE = 2
+        private const val TYPE = "fragment_type"
+
+        fun getInstance(type: Int): Fragment {
+            val instance = ArticleListFragment()
+            val bundle = Bundle().apply {
+                putInt(TYPE,type)
+            }
+            instance.arguments = bundle
+            return instance
+        }
+        private fun getType(fragment: Fragment): Int{
+             return fragment.requireArguments().getInt(TYPE,0)
+        }
     }
 }
