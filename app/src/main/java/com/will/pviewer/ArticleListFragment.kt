@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,13 @@ import com.will.pviewer.adapter.ArticleListAdapter
 import com.will.pviewer.adapter.LocalArticleListAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
+import com.will.pviewer.network.ArticleService
 import com.will.pviewer.viewmodels.ArticleListViewModel
 import com.will.pviewer.viewmodels.ArticleListViewModelFactory
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,7 +37,7 @@ class ArticleListFragment private  constructor(): Fragment() {
         ArticleListViewModelFactory(ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()))
     }
 
-    fun getAdapter(): RecyclerView.Adapter<out RecyclerView.ViewHolder>{
+    private fun getAdapter(): RecyclerView.Adapter<out RecyclerView.ViewHolder>{
         return when(getType(this)){
             TYPE_SELFIE -> ArticleListAdapter()
             TYPE_POST -> ArticleListAdapter()
@@ -46,18 +52,34 @@ class ArticleListFragment private  constructor(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentArticleListBinding.inflate(inflater,container,false)
-        val adapter = ArticleListAdapter()
+        val adapter = getAdapter()
         binding.fragmentArticleListRecycler.adapter = adapter
         binding.fragmentArticleListButton.setOnClickListener{
             Thread{makeFakeData()}.start()
         }
+        lifecycleScope.launch {
+            ArticleService.getInstance(requireContext()).getArticleList(1,1)
+        }
         subscribeUi(adapter)
         return binding.root
     }
-    private fun subscribeUi(adapter: ArticleListAdapter){
-        viewModel.articleWithPictures.observe(viewLifecycleOwner){result ->
-            adapter.submitList(result)
+    private fun subscribeUi(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>){
+        when(adapter){
+             is ArticleListAdapter -> {
+                 viewModel.articleWithPictures.observe(viewLifecycleOwner){result ->
+                     adapter.submitList(result)
+                 }
+             }
+             is LocalArticleListAdapter -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.articleWithPicturesPaging.collectLatest {
+                        Log.e("submit data",it.toString())
+                        adapter.submitData(it)
+                    }
+                }
+            }
         }
+
     }
     private fun makeFakeData(){
         val db = AppDatabase.getInstance(requireContext())
