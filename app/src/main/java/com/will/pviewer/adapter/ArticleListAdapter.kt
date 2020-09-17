@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,20 +18,24 @@ import com.will.pviewer.viewmodels.ArticleViewModel
 /**
  * created  by will on 2020/8/25 11:24
  */
-class ArticleListAdapter: ListAdapter<ArticleWithPictures,ArticleListAdapter.ViewHolder>(ArticleDiffCallback()) {
+class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures,ArticleListAdapter.ViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_article,parent,false))
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.setClickListener {
                 val intent = Intent(binding.root.context,ArticleActivity::class.java)
+                intent.putExtra(ARTICLE_ACTIVITY_DATA,binding.viewModel.articleWithPictures)
                 binding.itemArticleName.context.startActivity(intent)
             }
         }

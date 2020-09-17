@@ -8,12 +8,13 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "pictures")
 data class Picture(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val articleId: Int,
-    val path: String,
-    val size: Int,
-    val name: String,
-    val url: String
-) {
+    val uuid: String,
+    val url: String,
+    val articleUuid: String,
 
+    var path: String = "",
+    var size: Int = 0,
+    var exist: Boolean = false
+) {
+    @PrimaryKey(autoGenerate = true) var id = 0
 }
