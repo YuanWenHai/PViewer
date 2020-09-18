@@ -3,4 +3,5 @@
     <string name="selfie">Selfie</string>
     <string name="post">Post</string>
     <string name="favorite">Favorite</string>
+    <string name="empty_list_msg">no data yet</string>
 </resources>

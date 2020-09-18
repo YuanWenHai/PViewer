@@ -5,13 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
+import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.will.pviewer.adapter.ArticleListAdapter
+import com.will.pviewer.adapter.ArticleListLoadStateAdapter
 import com.will.pviewer.adapter.LocalArticleListAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
@@ -19,7 +22,7 @@ import com.will.pviewer.setting.LOG_TAG
 import com.will.pviewer.viewmodels.ArticleListViewModel
 import com.will.pviewer.viewmodels.ArticleListViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.count
 
 /**
  * created  by will on 2020/8/23 16:29
@@ -46,19 +49,23 @@ class ArticleListFragment private  constructor(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentArticleListBinding.inflate(inflater,container,false)
-        val adapter = getAdapter()
-        binding.fragmentArticleListRecycler.adapter = adapter
-        binding.fragmentArticleListButton.setOnClickListener{
-            //Thread{makeFakeData()}.start()
-        }
-        subscribeUi(adapter)
+
+        initAdapter(binding)
+
         return binding.root
     }
-    private fun subscribeUi(adapter: PagingDataAdapter<ArticleWithPictures,out RecyclerView.ViewHolder>){
-        viewLifecycleOwner.lifecycleScope.launch {
+    private fun initAdapter(binding: FragmentArticleListBinding){
+        val adapter = getAdapter()
+        binding.fragmentArticleListRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ArticleListLoadStateAdapter(adapter),
+            footer = ArticleListLoadStateAdapter(adapter)
+        )
+        binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             if(adapter is LocalArticleListAdapter){
                 viewModel.localArticles.collectLatest {
-                    Log.d(LOG_TAG,"start collect local articles ")
+                    Log.d(LOG_TAG,"start collect articles from DB ")
                     adapter.submitData(it)
                 }
             }else{
@@ -66,6 +73,14 @@ class ArticleListFragment private  constructor(): Fragment() {
                     Log.d(LOG_TAG,"start collect articles from server")
                     adapter.submitData(it)
                 }
+                viewModel.articles
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest {
+                binding.fragmentArticleListRefresh.isRefreshing = it.refresh is LoadState.Loading
+                //binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0
+                //binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
             }
         }
     }

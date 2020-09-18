@@ -34,8 +34,11 @@ class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures,ArticleListAdapt
     class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.setClickListener {
+                //防止重复点击，1s延迟
+                it.isEnabled = false
+                it.postDelayed({it.isEnabled = true},1000)
                 val intent = Intent(binding.root.context,ArticleActivity::class.java)
-                intent.putExtra(ARTICLE_ACTIVITY_DATA,binding.viewModel.articleWithPictures)
+                intent.putExtra(ARTICLE_ACTIVITY_DATA,binding.viewModel?.articleWithPictures)
                 binding.itemArticleName.context.startActivity(intent)
             }
         }
