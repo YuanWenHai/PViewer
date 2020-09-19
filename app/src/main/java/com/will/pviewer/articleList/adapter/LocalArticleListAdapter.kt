@@ -1,4 +1,4 @@
-package com.will.pviewer.adapter
+package com.will.pviewer.articleList.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,19 +6,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.will.pviewer.R
 import com.will.pviewer.data.ArticleWithPictures
-import com.will.pviewer.data.Picture
 import com.will.pviewer.databinding.ItemArticleBinding
-import com.will.pviewer.databinding.ItemArticlePictureBinding
 import com.will.pviewer.viewmodels.ArticleViewModel
 
 /**
  * created  by will on 2020/9/11 14:41
  */
-class LocalArticleListAdapter: PagingDataAdapter<ArticleWithPictures,LocalArticleListAdapter.ViewHolder>(
-    diffCallback) {
+class LocalArticleListAdapter: PagingDataAdapter<ArticleWithPictures, LocalArticleListAdapter.ViewHolder>(
+    diffCallback
+) {
 
 
 

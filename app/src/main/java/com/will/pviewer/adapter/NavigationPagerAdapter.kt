@@ -3,7 +3,7 @@ package com.will.pviewer.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.will.pviewer.ArticleListFragment
+import com.will.pviewer.articleList.ArticleListFragment
 
 /**
  * created  by will on 2020/8/29 16:00

@@ -1,10 +1,9 @@
-package com.will.pviewer.viewmodels
+package com.will.pviewer.articleList.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.network.ApiService
-import com.will.pviewer.network.ArticleService
 
 /**
  * created  by will on 2020/8/25 15:48

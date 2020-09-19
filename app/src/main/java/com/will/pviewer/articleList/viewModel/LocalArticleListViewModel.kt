@@ -1,4 +1,4 @@
-package com.will.pviewer.viewmodels
+package com.will.pviewer.articleList.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.paging.Pager

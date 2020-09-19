@@ -1,4 +1,4 @@
-package com.will.pviewer.adapter
+package com.will.pviewer.articleList.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.will.pviewer.ARTICLE_ACTIVITY_DATA
-import com.will.pviewer.ArticleActivity
+import com.will.pviewer.articleDetail.ARTICLE_ACTIVITY_DATA
+import com.will.pviewer.articleDetail.ArticleActivity
 import com.will.pviewer.R
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.databinding.ItemArticleBinding
@@ -18,7 +17,9 @@ import com.will.pviewer.viewmodels.ArticleViewModel
 /**
  * created  by will on 2020/8/25 11:24
  */
-class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures,ArticleListAdapter.ViewHolder>(ArticleDiffCallback()) {
+class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures, ArticleListAdapter.ViewHolder>(
+    ArticleDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_article,parent,false))
@@ -37,7 +38,7 @@ class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures,ArticleListAdapt
                 //防止重复点击，1s延迟
                 it.isEnabled = false
                 it.postDelayed({it.isEnabled = true},1000)
-                val intent = Intent(binding.root.context,ArticleActivity::class.java)
+                val intent = Intent(binding.root.context, ArticleActivity::class.java)
                 intent.putExtra(ARTICLE_ACTIVITY_DATA,binding.viewModel?.articleWithPictures)
                 binding.itemArticleName.context.startActivity(intent)
             }

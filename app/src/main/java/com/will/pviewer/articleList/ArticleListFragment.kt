@@ -1,28 +1,25 @@
-package com.will.pviewer
+package com.will.pviewer.articleList
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.will.pviewer.adapter.ArticleListAdapter
-import com.will.pviewer.adapter.ArticleListLoadStateAdapter
-import com.will.pviewer.adapter.LocalArticleListAdapter
+import com.will.pviewer.articleList.adapter.ArticleListAdapter
+import com.will.pviewer.articleList.adapter.ArticleListLoadStateAdapter
+import com.will.pviewer.articleList.adapter.LocalArticleListAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.setting.LOG_TAG
-import com.will.pviewer.viewmodels.ArticleListViewModel
-import com.will.pviewer.viewmodels.ArticleListViewModelFactory
+import com.will.pviewer.articleList.viewModel.ArticleListViewModel
+import com.will.pviewer.articleList.viewModel.ArticleListViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.count
 
 /**
  * created  by will on 2020/8/23 16:29

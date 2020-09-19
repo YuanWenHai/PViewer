@@ -1,4 +1,4 @@
-package com.will.pviewer.adapter
+package com.will.pviewer.articleList.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

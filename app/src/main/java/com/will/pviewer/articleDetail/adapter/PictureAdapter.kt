@@ -1,4 +1,4 @@
-package com.will.pviewer.adapter
+package com.will.pviewer.articleDetail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,20 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.will.pviewer.R
 import com.will.pviewer.data.Picture
-import com.will.pviewer.databinding.ItemArticleBinding
 import com.will.pviewer.databinding.ItemArticlePictureBinding
 
-class ArticlePictureAdapter(): ListAdapter<Picture, ArticlePictureAdapter.ViewHolder>(Callback()){
+class PictureAdapter(private val onClick:(Int) -> Unit): ListAdapter<Picture, PictureAdapter.ViewHolder>(Callback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.item_article_picture,parent,false))
+        return ViewHolder(onClick,DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.item_article_picture,parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(val binding: ItemArticlePictureBinding): RecyclerView.ViewHolder(binding.root){
+    class ViewHolder(private val onClick:(Int) -> Unit,val binding: ItemArticlePictureBinding): RecyclerView.ViewHolder(binding.root){
+        init {
+            binding.pictureImage.setOnClickListener(){
+                onClick(absoluteAdapterPosition)
+            }
+        }
         fun bind(pic: Picture){
             Glide.with(binding.pictureImage.context).load(pic.url).into(binding.pictureImage)
         }
