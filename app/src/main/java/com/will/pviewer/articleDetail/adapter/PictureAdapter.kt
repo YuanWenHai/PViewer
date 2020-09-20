@@ -28,7 +28,7 @@ class PictureAdapter(private val onClick:(Int) -> Unit): ListAdapter<Picture, Pi
             }
         }
         fun bind(pic: Picture){
-            Glide.with(binding.pictureImage.context).load(pic.url).into(binding.pictureImage)
+            Glide.with(binding.pictureImage.context).load(if(pic.exist) pic.path else pic.url).into(binding.pictureImage)
         }
     }
 }

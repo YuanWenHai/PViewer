@@ -1,6 +1,8 @@
 package com.will.pviewer.articleDetail
 
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -17,6 +19,10 @@ class ArticleActivity: AppCompatActivity() {
         PictureListViewModelFactory(article)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
+        //window.decorView.systemUiVisibility =(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+      /*  window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)*/
+
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityArticleDetailBinding>(this,
             R.layout.activity_article_detail

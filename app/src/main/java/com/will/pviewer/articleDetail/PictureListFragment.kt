@@ -16,6 +16,12 @@ import com.will.pviewer.viewmodels.ArticleViewModel
 import com.will.pviewer.articleDetail.viewModel.PictureListViewModel
 import com.will.pviewer.setting.LOG_TAG
 
+
+private val Fragment.showStatusBar: Unit
+    get() {
+        TODO("Not yet implemented")
+    }
+
 /**
  * created  by will on 2020/9/18 17:57
  */
@@ -35,16 +41,16 @@ class PictureListFragment(): Fragment() {
         val adapter = PictureAdapter{
             viewModel.currentIndex.value = it
             val gallery = GalleryFragment()
-            parentFragmentManager.beginTransaction().add(R.id.activity_article_detail_container,gallery,null).addToBackStack(null).commit()
+            parentFragmentManager.beginTransaction().setCustomAnimations(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit).add(R.id.activity_article_detail_container,gallery,null).addToBackStack(null).commit()
         }
         list.adapter = adapter
         viewModel.getArticle().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it.pictureList)
             binding.viewModel = ArticleViewModel(it)
-            Log.e("!~","picture list size is ${it.pictureList.size}")
-
         })
-
         return binding.root
     }
+
+
+
 }

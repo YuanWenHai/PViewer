@@ -5,7 +5,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000">
+        android:background="@color/galleryBackground"
+        >
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/fragment_gallery_pager"
             android:layout_width="match_parent"
@@ -16,7 +17,10 @@
             android:layout_height="120dp"
             android:padding="15dp"
             android:background="@color/galleryShadow"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:textColor="#ffffff"
+            android:visibility="invisible"
+            />
 
     </RelativeLayout>
 </layout>

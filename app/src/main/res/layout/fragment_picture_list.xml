@@ -13,7 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppActionBarTheme"
-            app:title="@{viewModel.name}" />
+            app:title="@{viewModel.name}"
+            app:menu="@menu/menu_picture_list"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_recycler"
             android:layout_width="match_parent"
