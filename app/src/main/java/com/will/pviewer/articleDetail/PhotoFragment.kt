@@ -22,7 +22,7 @@ class PhotoFragment private constructor(): Fragment() {
     ): View? {
         val binding: ItemFragmentGalleryBinding = DataBindingUtil.inflate(inflater, R.layout.item_fragment_gallery,container,false)
         val pic = getPicture(this)
-        Glide.with(binding.itemFragmentGalleryPhoto).load(if(pic.exist) pic.path else pic.url).into(binding.itemFragmentGalleryPhoto)
+        Glide.with(binding.itemFragmentGalleryPhoto).load(if(pic.path.isBlank()) pic.url else pic.path).into(binding.itemFragmentGalleryPhoto)
         return binding.root
     }
     companion object{

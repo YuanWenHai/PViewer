@@ -13,9 +13,9 @@ data class Picture(
     val url: String,
     val articleUuid: String,
 
-    var path: String = "",
-    var size: Int = 0,
-    var exist: Boolean = false
+    val path: String = "",
+    val size: Int = 0
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id = 0
+    constructor(picture: Picture,path: String,size: Int,exist: Boolean,articleUuid: String): this(picture.uuid,picture.url,articleUuid,path,size)
 }

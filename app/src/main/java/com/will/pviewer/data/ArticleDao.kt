@@ -29,4 +29,7 @@ interface ArticleDao {
 
     @Insert
     fun insertArticles(articles: List<Article>)
+
+    @Query("SELECT COUNT(uuid) FROM articles WHERE uuid = :uuid")
+    fun getArticleCountByUuid(uuid: String): Int
 }

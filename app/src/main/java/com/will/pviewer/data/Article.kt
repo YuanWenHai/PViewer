@@ -21,4 +21,5 @@ data class Article(
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id = 0
 
+    constructor(article: Article,picCount: Int,exist: Boolean): this(article.uuid,article.title,article.author,article.publishTime,picCount,article.link,article.category)
 }

@@ -52,7 +52,7 @@ class ArticleListFragment private  constructor(): Fragment() {
         return binding.root
     }
     private fun initAdapter(binding: FragmentArticleListBinding){
-        val adapter = getAdapter()
+        val adapter = ArticleListAdapter()
         binding.fragmentArticleListRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ArticleListLoadStateAdapter(adapter),
             footer = ArticleListLoadStateAdapter(adapter)
@@ -60,7 +60,7 @@ class ArticleListFragment private  constructor(): Fragment() {
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            if(adapter is LocalArticleListAdapter){
+            if(getType(this@ArticleListFragment) == TYPE_FAVORITE){
                 viewModel.localArticles.collectLatest {
                     Log.d(LOG_TAG,"start collect articles from DB ")
                     adapter.submitData(it)

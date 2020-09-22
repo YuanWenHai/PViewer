@@ -9,7 +9,6 @@ class FileHelper {
 
     companion object {
         fun writeStreamToFile(stream: InputStream, destFile: File){
-            val reader = BufferedInputStream(stream)
             val writer = FileOutputStream(destFile)
             writer.write(stream.readBytes())
         }
