@@ -14,7 +14,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("/articles")
-    suspend fun getArticleList(@Query("series") series: String = "825286D72573E99E85FA798A0881D9A1",@Query("page") page: Int = 1,@Query("size")size: Int = 10): Response<QueryResponse>
+    suspend fun getArticleList(@Query("series") series: String = "",@Query("page") page: Int = 1,@Query("size")size: Int = 10): Response<QueryResponse>
 
     companion object{
         private const val BASE_URL = "http://192.168.50.68:8080/"
