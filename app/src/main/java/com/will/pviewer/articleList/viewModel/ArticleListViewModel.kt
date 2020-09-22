@@ -15,7 +15,7 @@ import com.will.pviewer.paging.ArticleListPagingSource
  */
 class ArticleListViewModel(private val repository: ArticleWithPicturesRepository,private val apiService: ApiService): ViewModel() {
     val articles = Pager(
-        PagingConfig(pageSize = 20,enablePlaceholders = true,initialLoadSize = 20)
+        PagingConfig(pageSize = 10,enablePlaceholders = true,initialLoadSize = 10)
     ){
         ArticleListPagingSource(apiService)
     }.flow

@@ -6,7 +6,7 @@ import com.will.pviewer.data.ArticleWithPictures
 /**
  * created  by will on 2020/9/16 10:31
  */
-data class QueryResponse(
+data class  QueryResponse(
     @Json(name = "total")
     val total: Int,
     @Json(name = "totalPage")

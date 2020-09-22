@@ -32,8 +32,8 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
 
                 override fun onResponse(call: Call, response: Response) {
                     if(response.body() != null){
-                        val fileSuffix = picture.url.subSequence(picture.url.lastIndexOf("."),picture.url.length).toString()
-                        val filePath = File(destDir,picture.uuid+fileSuffix)
+                        //val fileSuffix = picture.url.subSequence(picture.url.lastIndexOf("."),picture.url.length).toString()
+                        val filePath = File(destDir,picture.name)
                         FileHelper.writeStreamToFile(response.body()!!.byteStream(),filePath)
                         val resultPicture = Picture(picture,filePath.path,
                             response.body()!!.byteStream().readBytes().size,true,articleWithPictures.article.uuid)

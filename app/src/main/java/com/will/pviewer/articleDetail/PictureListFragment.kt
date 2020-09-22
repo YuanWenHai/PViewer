@@ -1,5 +1,6 @@
 package com.will.pviewer.articleDetail
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -50,7 +51,7 @@ class PictureListFragment(): Fragment() {
             R.layout.fragment_picture_list,container,false)
         binding.fragmentPictureListToolbar.setOnMenuItemClickListener{
             if(it.itemId == R.id.picture_toolbar_download_article){
-                saveOnSimpleThread(article)
+                saveOnSimpleThread(article,requireContext().applicationContext)
             }
             true
         }
@@ -69,14 +70,14 @@ class PictureListFragment(): Fragment() {
         return binding.root
     }
 
-    private fun saveOnSimpleThread(articleWithPictures: ArticleWithPictures){
+    private fun saveOnSimpleThread(articleWithPictures: ArticleWithPictures,context: Context){
         //TODO  这里将在后期更新为coroutine or rxjava
         Thread{
-            save(articleWithPictures)
+            save(articleWithPictures,context)
         }.start()
     }
 
-    private fun save(articleWithPictures: ArticleWithPictures){
+    private fun save(articleWithPictures: ArticleWithPictures,context: Context){
 
         val count = AppDatabase.getInstance(requireContext()).articleDao().getArticleCountByUuid(articleWithPictures.article.uuid)
         if(count != 0){
@@ -99,7 +100,7 @@ class PictureListFragment(): Fragment() {
 
                 override fun onFinish(total: Int, succeed: Int,succeedList: List<Picture>) {
                     val article = Article(articleWithPictures.article,succeed,true)
-                    AppDatabase.getInstance(requireContext()).apply {
+                    AppDatabase.getInstance(context).apply {
                         articleDao().insertArticle(article)
                         pictureDao().insertPictures(succeedList)
                     }

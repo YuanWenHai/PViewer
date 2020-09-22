@@ -1,7 +1,6 @@
 package com.will.pviewer.data
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -17,9 +16,9 @@ data class Article(
     val publishTime: String,
     val picCount: Int,
     val link: String,
-    val category: String
+    val series: String
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id = 0
 
-    constructor(article: Article,picCount: Int,exist: Boolean): this(article.uuid,article.title,article.author,article.publishTime,picCount,article.link,article.category)
+    constructor(article: Article,picCount: Int,exist: Boolean): this(article.uuid,article.title,article.author,article.publishTime,picCount,article.link,article.series)
 }

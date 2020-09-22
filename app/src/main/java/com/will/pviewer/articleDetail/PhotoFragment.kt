@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.will.pviewer.R
 import com.will.pviewer.data.Picture
 import com.will.pviewer.databinding.ItemFragmentGalleryBinding
@@ -22,7 +25,10 @@ class PhotoFragment private constructor(): Fragment() {
     ): View? {
         val binding: ItemFragmentGalleryBinding = DataBindingUtil.inflate(inflater, R.layout.item_fragment_gallery,container,false)
         val pic = getPicture(this)
-        Glide.with(binding.itemFragmentGalleryPhoto).load(if(pic.path.isBlank()) pic.url else pic.path).into(binding.itemFragmentGalleryPhoto)
+        Glide.with(binding.itemFragmentGalleryPhoto)
+            .load(if(pic.path.isBlank()) pic.url else pic.path)
+            .apply(RequestOptions().format(DecodeFormat.PREFER_ARGB_8888).override(Target.SIZE_ORIGINAL))
+            .into(binding.itemFragmentGalleryPhoto)
         return binding.root
     }
     companion object{

@@ -9,7 +9,7 @@ import java.io.Serializable
  */
 @Entity(tableName = "pictures")
 data class Picture(
-    val uuid: String,
+    val name: String,
     val url: String,
     val articleUuid: String,
 
@@ -17,5 +17,5 @@ data class Picture(
     val size: Int = 0
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id = 0
-    constructor(picture: Picture,path: String,size: Int,exist: Boolean,articleUuid: String): this(picture.uuid,picture.url,articleUuid,path,size)
+    constructor(picture: Picture,path: String,size: Int,exist: Boolean,articleUuid: String): this(picture.name,picture.url,articleUuid,path,size)
 }

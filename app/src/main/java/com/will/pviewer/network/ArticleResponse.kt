@@ -20,15 +20,15 @@ data class ArticleResponse(
     val picCount: Int,
     @Json(name = "link")
     val link: String,
-    @Json(name = "category")
-    val category: String,
+    @Json(name = "series")
+    val series: String,
     @Json(name = "pictureList")
     val pictureList: List<PictureResponse>
 ) {
 
     fun toArticleWithPictures(): ArticleWithPictures{
         val article = Article(uuid,title,author,publishTime,picCount,link,
-            category
+            series
         )
         val pictures = pictureList.map { it.toPicture(article) }
         return ArticleWithPictures(article,pictures)
