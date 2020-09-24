@@ -3,6 +3,9 @@
     <string name="selfie">Selfie</string>
     <string name="post">Post</string>
     <string name="favorite">Favorite</string>
+    <string name="personal">Personal</string>
+    <string name="Series">Series</string>
+    <string name="setting">Setting</string>
     <string name="empty_list_msg">no data yet</string>
     <string name="download">Download</string>
 </resources>

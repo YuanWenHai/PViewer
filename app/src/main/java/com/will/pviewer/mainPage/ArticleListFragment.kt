@@ -1,4 +1,4 @@
-package com.will.pviewer.articleList
+package com.will.pviewer.mainPage
 
 import android.os.Bundle
 import android.util.Log
@@ -9,16 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.will.pviewer.articleList.adapter.ArticleListAdapter
-import com.will.pviewer.articleList.adapter.ArticleListLoadStateAdapter
-import com.will.pviewer.articleList.adapter.LocalArticleListAdapter
+import com.will.pviewer.mainPage.adapter.ArticleListAdapter
+import com.will.pviewer.mainPage.adapter.ArticleListLoadStateAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.setting.LOG_TAG
-import com.will.pviewer.articleList.viewModel.ArticleListViewModel
-import com.will.pviewer.articleList.viewModel.ArticleListViewModelFactory
+import com.will.pviewer.mainPage.viewModel.ArticleListViewModel
+import com.will.pviewer.mainPage.viewModel.ArticleListViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 
 /**
@@ -31,14 +28,6 @@ class ArticleListFragment private  constructor(): Fragment() {
         ArticleListViewModelFactory(ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()))
     }
 
-    private fun getAdapter(): PagingDataAdapter<ArticleWithPictures,out RecyclerView.ViewHolder>{
-        return when(getType(this)){
-            TYPE_SELFIE -> ArticleListAdapter()
-            TYPE_POST -> ArticleListAdapter()
-            TYPE_FAVORITE -> LocalArticleListAdapter()
-            else -> ArticleListAdapter()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

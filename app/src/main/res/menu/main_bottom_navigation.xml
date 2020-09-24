@@ -8,9 +8,17 @@
         android:id="@+id/bottom_navigation_post"
         android:title="@string/post"
         android:icon="@drawable/icon_collection"/>
-    <item
+    <!--<item
         android:id="@+id/bottom_navigation_favorite"
         android:title="@string/favorite"
         android:icon="@drawable/icon_favorited"
-        />
+        />-->
+    <item
+        android:id="@+id/bottom_navigation_series"
+        android:title="@string/Series"
+        android:icon="@drawable/icon_list"/>
+    <item
+        android:id="@+id/bottom_navigation_personal"
+        android:title="@string/personal"
+        android:icon="@drawable/icon_personal"/>
 </menu>

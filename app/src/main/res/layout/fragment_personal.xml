@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fragment_personal_favorite"
+            android:layout_height="@dimen/personal_item_height"
+            android:layout_width="@dimen/personal_item_width"
+            android:theme="@style/PersonalItemTheme"
+            android:text="@string/favorite"/>
+
+        <TextView
+            android:id="@+id/fragment_personal_setting"
+            android:layout_height="@dimen/personal_item_height"
+            android:layout_width="@dimen/personal_item_width"
+            android:theme="@style/PersonalItemTheme"
+            android:text="@string/setting"/>
+    </LinearLayout>
+</layout>

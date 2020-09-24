@@ -14,10 +14,11 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("/articles")
-    suspend fun getArticleList(@Query("series") series: String = "",@Query("page") page: Int = 1,@Query("size")size: Int = 10): Response<QueryResponse>
+    suspend fun getArticleList(@Query("series") series: String = "",@Query("page") page: Int = 1,@Query("size")size: Int = 10): Response<ArticleQueryResponse>
 
     companion object{
-        private const val BASE_URL = "http://192.168.50.68:8080/"
+        private const val BASE_URL = "http://10.4.1.106:8080/"
+        //private const val BASE_URL = "http://192.168.50.68:8080/"
 
         private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 

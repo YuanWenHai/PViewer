@@ -1,4 +1,4 @@
-package com.will.pviewer.articleList.viewModel
+package com.will.pviewer.mainPage.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

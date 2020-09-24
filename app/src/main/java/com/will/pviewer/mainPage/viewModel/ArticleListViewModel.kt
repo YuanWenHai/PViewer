@@ -1,13 +1,10 @@
-package com.will.pviewer.articleList.viewModel
+package com.will.pviewer.mainPage.viewModel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.network.ApiService
-import com.will.pviewer.network.ArticleService
 import com.will.pviewer.paging.ArticleListPagingSource
 
 /**
