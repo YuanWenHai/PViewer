@@ -49,17 +49,26 @@ class ArticleListFragment private  constructor(): Fragment() {
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            if(getType(this@ArticleListFragment) == TYPE_FAVORITE){
-                viewModel.localArticles.collectLatest {
-                    Log.d(LOG_TAG,"start collect articles from DB ")
-                    adapter.submitData(it)
+
+            when(getType(this@ArticleListFragment)){
+                TYPE_FAVORITE ->{
+                    viewModel.localArticles.collectLatest {
+                        Log.d(LOG_TAG,"start collect articles from DB ")
+                        adapter.submitData(it)
+                    }
                 }
-            }else{
-                viewModel.articles.collectLatest {
-                    Log.d(LOG_TAG,"start collect articles from server")
-                    adapter.submitData(it)
+                TYPE_SELFIE ->{
+                    viewModel.selfies.collectLatest {
+                        Log.d(LOG_TAG,"start collect articles from server")
+                        adapter.submitData(it)
+                    }
                 }
-                viewModel.articles
+                TYPE_POST ->{
+                    viewModel.posts.collectLatest {
+                        Log.d(LOG_TAG,"start collect articles from server")
+                        adapter.submitData(it)
+                    }
+                }
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {

@@ -1,15 +1,23 @@
 package com.will.pviewer.network
 
 import com.squareup.moshi.Json
+import com.will.pviewer.data.Series
 
-/**
- * created  by will on 2020/9/24 11:51
- */
 data class SeriesResponse(
-    @Json(name = "total")
-    val total: Int,
-    @Json(name = "list")
-    val list: List<String>
+    @Json(name = "name")
+    val name: String,
+    @Json(name = "alias")
+    val alias: String
 ) {
 
+    companion object {
+        fun toSeries(seriesResponse: SeriesResponse): Series{
+            return Series(name = seriesResponse.name,alias = seriesResponse.alias)
+        }
+        fun toSeriesList(list: List<SeriesResponse>): List<Series>{
+            return list.map {
+                toSeries(it)
+            }
+        }
+    }
 }

@@ -7,7 +7,6 @@ import com.will.pviewer.R
 import com.will.pviewer.mainPage.ArticleListFragment
 import com.will.pviewer.mainPage.PersonalFragment
 import com.will.pviewer.mainPage.SeriesFragment
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 /**
  * created  by will on 2020/8/29 16:00
@@ -19,7 +18,7 @@ class NavigationPagerAdapter(activity: FragmentActivity): FragmentStateAdapter(a
     }
 
     override fun createFragment(position: Int): Fragment {
-        return NavigationItems.valueOf(position.toString()).getFragment()
+        return NavigationItems.values()[position].getFragment()
     }
 }
 enum class NavigationItems(val index: Int){

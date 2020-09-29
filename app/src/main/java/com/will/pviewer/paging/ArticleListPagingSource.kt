@@ -12,12 +12,13 @@ import java.lang.Exception
 /**
  * created  by will on 2020/9/12 15:47
  */
-class ArticleListPagingSource(private val apiService: ApiService): PagingSource<Int,ArticleWithPictures>() {
+class ArticleListPagingSource(private val apiService: ApiService,private val series: String): PagingSource<Int,ArticleWithPictures>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArticleWithPictures> {
         val pageCount = params.key ?: 1
         val pageSize = params.loadSize
-        val response = apiService.getArticleList(size = pageSize,page = pageCount)
+        val response = apiService.getArticleList(size = pageSize,page = pageCount,series = series)
+
         Log.d(LOG_TAG,"on pagingSource load -> pageCount:$pageCount   pageSize:$pageSize paramsKey: ${params.key}")
         if(response.code() != 200){
             val errorMsg = "network error, response code is: ${response.code()} \nerror response body string is: ${response.errorBody()?.string()}"

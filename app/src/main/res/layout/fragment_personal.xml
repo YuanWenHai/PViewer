@@ -8,15 +8,15 @@
 
         <TextView
             android:id="@+id/fragment_personal_favorite"
-            android:layout_height="@dimen/personal_item_height"
-            android:layout_width="@dimen/personal_item_width"
+            android:layout_height="48dp"
+            android:layout_width="match_parent"
             android:theme="@style/PersonalItemTheme"
             android:text="@string/favorite"/>
 
         <TextView
             android:id="@+id/fragment_personal_setting"
-            android:layout_height="@dimen/personal_item_height"
-            android:layout_width="@dimen/personal_item_width"
+            android:layout_height="48dp"
+            android:layout_width="match_parent"
             android:theme="@style/PersonalItemTheme"
             android:text="@string/setting"/>
     </LinearLayout>

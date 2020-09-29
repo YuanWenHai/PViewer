@@ -7,14 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.will.pviewer.R
+import com.will.pviewer.data.Series
 import com.will.pviewer.databinding.ItemFragmentSeriesBinding
-import com.will.pviewer.network.SeriesResponse
-import kotlinx.android.synthetic.main.item_fragment_series.view.*
 
 /**
  * created  by will on 2020/9/24 11:49
  */
-class SeriesAdapter(): ListAdapter<String,SeriesAdapter.SeriesViewHolder>(DiffCallback()) {
+class SeriesAdapter(): ListAdapter<Series,SeriesAdapter.SeriesViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val binding = DataBindingUtil.inflate<ItemFragmentSeriesBinding>(LayoutInflater.from(parent.context),
@@ -23,7 +22,7 @@ class SeriesAdapter(): ListAdapter<String,SeriesAdapter.SeriesViewHolder>(DiffCa
     }
 
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position).name)
     }
 
     class SeriesViewHolder(private val binding: ItemFragmentSeriesBinding): RecyclerView.ViewHolder(binding.root){
@@ -32,12 +31,12 @@ class SeriesAdapter(): ListAdapter<String,SeriesAdapter.SeriesViewHolder>(DiffCa
         }
     }
 }
- private class DiffCallback: DiffUtil.ItemCallback<String>() {
-     override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-         return oldItem == newItem
+ private class DiffCallback: DiffUtil.ItemCallback<Series>() {
+     override fun areItemsTheSame(oldItem: Series, newItem: Series): Boolean {
+         return oldItem.alias == newItem.alias
      }
 
-     override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-         return oldItem == newItem
+     override fun areContentsTheSame(oldItem: Series, newItem: Series): Boolean {
+         return oldItem.alias == newItem.alias
      }
  }

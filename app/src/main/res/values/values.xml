@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="personal_item_height">48dp</dimen>
-    <dimen name="personal_item_width">match_parent</dimen>
+
 </resources>
