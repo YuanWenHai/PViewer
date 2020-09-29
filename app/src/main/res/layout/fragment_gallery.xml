@@ -11,16 +11,7 @@
             android:id="@+id/fragment_gallery_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/fragment_gallery_detail"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:padding="15dp"
-            android:background="@color/galleryShadow"
-            android:layout_alignParentBottom="true"
-            android:textColor="#ffffff"
-            android:visibility="invisible"
-            />
+
 
     </RelativeLayout>
 </layout>

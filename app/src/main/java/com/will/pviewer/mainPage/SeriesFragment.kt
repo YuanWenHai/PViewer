@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.will.pviewer.R
 import com.will.pviewer.databinding.FragmentSeriesBinding
 import com.will.pviewer.mainPage.adapter.SeriesAdapter
@@ -35,6 +37,7 @@ class SeriesFragment: Fragment() {
     ): View? {
         val binding: FragmentSeriesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_series,container,false)
         val adapter = SeriesAdapter()
+        binding.fragmentSeriesRecycler.addItemDecoration(DividerItemDecoration(requireContext(),LinearLayout.VERTICAL))
         binding.fragmentSeriesRefresh.setOnRefreshListener {viewModel.getSeries()}
         binding.fragmentSeriesRecycler.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {

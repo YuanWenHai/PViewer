@@ -34,8 +34,9 @@ class GalleryFragment(): Fragment(){
         )
         viewModel.getArticle().observe(viewLifecycleOwner, Observer {
             val adapter = GalleryPagerAdapter(requireActivity(), it.pictureList)
-            binding.fragmentGalleryDetail.text = it.article.title
+            //binding.fragmentGalleryDetail.text = it.article.title
             binding.fragmentGalleryPager.adapter = adapter
+            binding.fragmentGalleryPager.offscreenPageLimit = 3
         })
         viewModel.currentIndex.observe(viewLifecycleOwner, Observer {
             Log.w(LOG_TAG, "clicked picture item index is: $it")

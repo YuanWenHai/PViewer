@@ -25,7 +25,9 @@ class ArticleListFragment private  constructor(): Fragment() {
 
 
     private val viewModel: ArticleListViewModel by viewModels{
-        ArticleListViewModelFactory(ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()))
+        ArticleListViewModelFactory(
+            ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()),
+            getSeries(this).alias)
     }
 
 
@@ -50,26 +52,11 @@ class ArticleListFragment private  constructor(): Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
 
-            when(getType(this@ArticleListFragment)){
-                TYPE_FAVORITE ->{
-                    viewModel.localArticles.collectLatest {
-                        Log.d(LOG_TAG,"start collect articles from DB ")
-                        adapter.submitData(it)
-                    }
-                }
-                TYPE_SELFIE ->{
-                    viewModel.selfies.collectLatest {
-                        Log.d(LOG_TAG,"start collect articles from server")
-                        adapter.submitData(it)
-                    }
-                }
-                TYPE_POST ->{
-                    viewModel.posts.collectLatest {
-                        Log.d(LOG_TAG,"start collect articles from server")
-                        adapter.submitData(it)
-                    }
-                }
+            viewModel.articles.collectLatest {
+                adapter.submitData(it)
+                Log.d(LOG_TAG,"start collect articles with series: ${getSeries(this@ArticleListFragment)} ")
             }
+
         }
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
@@ -97,21 +84,21 @@ class ArticleListFragment private  constructor(): Fragment() {
 
     }*/
     companion object{
-        const val TYPE_SELFIE = 0
-        const val TYPE_POST = 1
-        const val TYPE_FAVORITE = 2
-        private const val TYPE = "fragment_type"
+        const val TYPE_SELFIE = "selfie"
+        const val TYPE_POST = "post"
+        const val TYPE_FAVORITE = "local"
+        private const val SERIES = "fragment_series"
 
-        fun getInstance(type: Int): Fragment {
+        fun getInstance(series: Series): Fragment {
             val instance = ArticleListFragment()
             val bundle = Bundle().apply {
-                putInt(TYPE,type)
+                putSerializable(SERIES,series)
             }
             instance.arguments = bundle
             return instance
         }
-        private fun getType(fragment: Fragment): Int{
-             return fragment.requireArguments().getInt(TYPE,0)
+        private fun getSeries(fragment: Fragment): Series{
+             return fragment.requireArguments().getSerializable(SERIES) as Series? ?: Series.getLocalSeries()
         }
     }
 }

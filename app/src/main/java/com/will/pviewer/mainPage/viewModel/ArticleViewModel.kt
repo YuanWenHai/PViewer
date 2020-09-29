@@ -1,4 +1,4 @@
-package com.will.pviewer.viewmodels
+package com.will.pviewer.mainPage.viewModel
 
 import com.will.pviewer.data.ArticleWithPictures
 

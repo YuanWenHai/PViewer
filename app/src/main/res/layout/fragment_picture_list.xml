@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.will.pviewer.viewmodels.ArticleViewModel" />
+            type="com.will.pviewer.mainPage.viewModel.ArticleViewModel" />
     </data>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppActionBarTheme"
             app:title="@{viewModel.name}"
-            app:menu="@menu/menu_picture_list"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_picture_list_recycler"

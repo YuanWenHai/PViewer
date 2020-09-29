@@ -22,6 +22,9 @@
         <activity
             android:name=".articleDetail.ArticleActivity"
             android:theme="@style/AppThemeNoActionBar"/>
+        <activity
+            android:name=".mainPage.ArticleListActivity"
+            android:theme="@style/AppThemeNoActionBar"/>
     </application>
 
 </manifest>

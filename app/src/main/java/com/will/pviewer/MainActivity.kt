@@ -19,7 +19,10 @@ class MainActivity : AppCompatActivity() {
         val navigation = binding.mainNavigationView
         val pager = binding.mainViewPager
 
-        pager.adapter = NavigationPagerAdapter(this)
+        val pagerAdapter = NavigationPagerAdapter(this)
+        pager.offscreenPageLimit = 4
+        pager.adapter = pagerAdapter
+
         pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 navigation.selectedItemId = NavigationItems.Personal.getResIdByIndex(position)

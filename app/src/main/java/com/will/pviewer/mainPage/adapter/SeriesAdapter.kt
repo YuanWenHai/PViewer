@@ -1,5 +1,6 @@
 package com.will.pviewer.mainPage.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.will.pviewer.R
 import com.will.pviewer.data.Series
 import com.will.pviewer.databinding.ItemFragmentSeriesBinding
+import com.will.pviewer.mainPage.ArticleListActivity
+import com.will.pviewer.util.Util
 
 /**
  * created  by will on 2020/9/24 11:49
@@ -22,12 +25,22 @@ class SeriesAdapter(): ListAdapter<Series,SeriesAdapter.SeriesViewHolder>(DiffCa
     }
 
     override fun onBindViewHolder(holder: SeriesViewHolder, position: Int) {
-        holder.bind(getItem(position).name)
+        holder.bind(getItem(position))
     }
 
     class SeriesViewHolder(private val binding: ItemFragmentSeriesBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(series: String){
-            binding.itemFragmentSeries.text = series
+        private lateinit var series: Series
+        init {
+            binding.root.setOnClickListener{
+                Util.preventDoubleClick(it)
+                val intent = Intent(it.context, ArticleListActivity::class.java)
+                intent.putExtra(ArticleListActivity.SERIES,series)
+                it.context.startActivity(intent)
+            }
+        }
+        fun bind(series: Series){
+            binding.itemFragmentSeries.text = series.name
+            this.series = series
         }
     }
 }

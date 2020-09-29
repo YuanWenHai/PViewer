@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.PictureAdapter
 import com.will.pviewer.databinding.FragmentPictureListBinding
-import com.will.pviewer.viewmodels.ArticleViewModel
+import com.will.pviewer.mainPage.viewModel.ArticleViewModel
 import com.will.pviewer.articleDetail.viewModel.PictureListViewModel
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.Article
@@ -21,15 +23,9 @@ import com.will.pviewer.data.Picture
 import com.will.pviewer.network.PictureDownloader
 import com.will.pviewer.network.PictureDownloadCallback
 import com.will.pviewer.setting.LOG_TAG
-import io.reactivex.rxjava3.internal.schedulers.RxThreadFactory
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import java.io.File
-
-
-private val Fragment.showStatusBar: Unit
-    get() {
-        TODO("Not yet implemented")
-    }
 
 /**
  * created  by will on 2020/9/18 17:57
@@ -38,9 +34,6 @@ class PictureListFragment(): Fragment() {
     val viewModel: PictureListViewModel by activityViewModels()
     lateinit var article: ArticleWithPictures
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,11 +42,18 @@ class PictureListFragment(): Fragment() {
     ): View? {
         val binding: FragmentPictureListBinding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_picture_list,container,false)
-        binding.fragmentPictureListToolbar.setOnMenuItemClickListener{
-            if(it.itemId == R.id.picture_toolbar_download_article){
-                saveOnSimpleThread(article,requireContext().applicationContext)
-            }
-            true
+        initializeView(binding)
+        return binding.root
+    }
+
+    private fun initializeView(binding: FragmentPictureListBinding){
+        setHasOptionsMenu(true)
+        val toolbar = binding.fragmentPictureListToolbar
+        val parent = requireActivity() as AppCompatActivity
+        parent.setSupportActionBar(toolbar)
+        parent.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener{
+            parent.onBackPressed()
         }
         val list = binding.fragmentPictureListRecycler
         val adapter = PictureAdapter{
@@ -67,17 +67,29 @@ class PictureListFragment(): Fragment() {
             adapter.submitList(it.pictureList)
             binding.viewModel = ArticleViewModel(it)
         })
-        return binding.root
     }
 
     private fun saveOnSimpleThread(articleWithPictures: ArticleWithPictures,context: Context){
         //TODO  这里将在后期更新为coroutine or rxjava
-        Thread{
+        viewLifecycleOwner.lifecycleScope.launch(IO){
             save(articleWithPictures,context)
-        }.start()
+        }
     }
 
-    private fun save(articleWithPictures: ArticleWithPictures,context: Context){
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_picture_list,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.picture_toolbar_download_article){
+            saveOnSimpleThread(article,requireContext().applicationContext)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    suspend private fun save(articleWithPictures: ArticleWithPictures,context: Context){
 
         val count = AppDatabase.getInstance(requireContext()).articleDao().getArticleCountByUuid(articleWithPictures.article.uuid)
         if(count != 0){

@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.will.pviewer.R
 import com.will.pviewer.data.Picture
-import com.will.pviewer.databinding.ItemFragmentGalleryBinding
+import com.will.pviewer.databinding.FragmentPhotoBinding
 
 /**
  * created  by will on 2020/9/19 17:43
@@ -23,7 +23,7 @@ class PhotoFragment private constructor(): Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: ItemFragmentGalleryBinding = DataBindingUtil.inflate(inflater, R.layout.item_fragment_gallery,container,false)
+        val binding: FragmentPhotoBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_photo,container,false)
         val pic = getPicture(this)
         Glide.with(binding.itemFragmentGalleryPhoto)
             .load(if(pic.path.isBlank()) pic.url else pic.path)

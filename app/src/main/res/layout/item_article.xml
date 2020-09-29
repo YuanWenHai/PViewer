@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
-            type="com.will.pviewer.viewmodels.ArticleViewModel" />
+            type="com.will.pviewer.mainPage.viewModel.ArticleViewModel" />
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
@@ -24,12 +25,58 @@
                 android:id="@+id/item_article_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.name}" />
+                android:text="@{viewModel.name}"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Article Title"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{`Author: `+viewModel.author}"
+                tools:text="Author"
                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{`Publish Time: `+viewModel.publishTime}"
+                tools:text="Publish Time: 15点36分"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
+                <ImageView
+                    android:id="@+id/item_article_thumb_1"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"/>
+                <ImageView
+                    android:id="@+id/item_article_thumb_2"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"/>
+                <ImageView
+                    android:id="@+id/item_article_thumb_3"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:scaleType="centerCrop"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{`Pic Count: `+viewModel.picCount}"
+                android:textStyle="italic"
+                tools:text="Pic Count: 15"
+                />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
