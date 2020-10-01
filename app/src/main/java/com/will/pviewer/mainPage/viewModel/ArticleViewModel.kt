@@ -12,6 +12,6 @@ class ArticleViewModel( val articleWithPictures: ArticleWithPictures){
     val name get() = article.title
     val author get() = article.author
     val picCount get() = article.picCount
-    val publishTime get() = article.picCount
+    val publishTime get() = article.publishTime
     val picList get() = pictures
 }

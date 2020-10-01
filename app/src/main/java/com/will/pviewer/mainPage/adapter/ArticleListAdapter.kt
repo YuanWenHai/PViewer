@@ -3,6 +3,7 @@ package com.will.pviewer.mainPage.adapter
 import android.content.Intent
 import android.transition.Transition
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
@@ -56,9 +57,13 @@ class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures, ArticleListAdap
                 val picViews = listOf(binding.itemArticleThumb1,binding.itemArticleThumb2,binding.itemArticleThumb3)
                 val picList = articleWithPictures.pictureList
                 picViews.forEachIndexed{index, imageView ->
+
                     if(picList.size >= index+1){
-                        Glide.with(imageView).load(picList[index].url).placeholder(R.drawable.jetpack_logo).override(500,500)
+                        imageView.visibility = View.VISIBLE
+                            Glide.with(imageView).load(picList[index].url).placeholder(R.drawable.jetpack_logo).override(500,500)
                             .transition(DrawableTransitionOptions.withCrossFade()).into(imageView)
+                    }else{
+                        imageView.visibility = View.GONE
                     }
 
                 }
