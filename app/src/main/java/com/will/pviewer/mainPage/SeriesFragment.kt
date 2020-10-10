@@ -18,6 +18,7 @@ import com.will.pviewer.databinding.FragmentSeriesBinding
 import com.will.pviewer.mainPage.adapter.SeriesAdapter
 import com.will.pviewer.mainPage.viewModel.SeriesViewModel
 import com.will.pviewer.network.ApiService
+import com.will.pviewer.network.ApiServiceImp
 
 /**
  * created  by will on 2020/9/24 11:22
@@ -26,7 +27,7 @@ class SeriesFragment: Fragment() {
     val viewModel: SeriesViewModel by viewModels {
         object: ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return SeriesViewModel(ApiService.getApiService()) as T
+                return SeriesViewModel(ApiServiceImp.get()) as T
             }
         }
     }
