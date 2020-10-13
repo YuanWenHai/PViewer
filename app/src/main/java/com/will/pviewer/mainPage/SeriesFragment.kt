@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,10 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.will.pviewer.R
-import com.will.pviewer.databinding.FragmentSeriesBinding
+import com.will.pviewer.databinding.FragmentSeriesListBinding
 import com.will.pviewer.mainPage.adapter.SeriesAdapter
 import com.will.pviewer.mainPage.viewModel.SeriesViewModel
-import com.will.pviewer.network.ApiService
 import com.will.pviewer.network.ApiServiceImp
 
 /**
@@ -36,16 +36,24 @@ class SeriesFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentSeriesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_series,container,false)
+        val binding: FragmentSeriesListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_series_list,container,false)
         val adapter = SeriesAdapter()
-        binding.fragmentSeriesRecycler.addItemDecoration(DividerItemDecoration(requireContext(),LinearLayout.VERTICAL))
-        binding.fragmentSeriesRefresh.setOnRefreshListener {viewModel.getSeries()}
-        binding.fragmentSeriesRecycler.adapter = adapter
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        binding.fragmentSeriesListRecycler.addItemDecoration(DividerItemDecoration(requireContext(),LinearLayout.VERTICAL))
+        binding.fragmentSeriesListRefresh.setOnRefreshListener {viewModel.getSeries()}
+        binding.fragmentSeriesListRecycler.adapter = adapter
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.getSeries().observe(viewLifecycleOwner){
                 adapter.submitList(it)
-                binding.fragmentSeriesRefresh.isRefreshing = false
+                binding.fragmentSeriesListEmptyMsg.isVisible = adapter.itemCount == 0
+                binding.fragmentSeriesListRecycler.isVisible = adapter.itemCount != 0
             }
+
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.isLoading().observe(viewLifecycleOwner){
+                binding.fragmentSeriesListRefresh.isRefreshing = it
+            }
+
         }
 
 

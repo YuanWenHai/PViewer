@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,20 +51,21 @@ class ArticleListFragment private  constructor(): Fragment() {
         )
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            Log.d(LOG_TAG,"start collect articles with series: ${getSeries(this@ArticleListFragment).name} ")
             viewModel.articles.collectLatest {
                 adapter.submitData(it)
-                Log.d(LOG_TAG,"start collect articles with series: ${getSeries(this@ArticleListFragment)} ")
             }
 
         }
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
                 binding.fragmentArticleListRefresh.isRefreshing = it.refresh is LoadState.Loading
-                //binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0
-                //binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
+                binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0
+                binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
             }
+
+
         }
     }
     /*private fun makeFakeData(){
@@ -87,7 +89,7 @@ class ArticleListFragment private  constructor(): Fragment() {
         const val TYPE_SELFIE = "selfie"
         const val TYPE_POST = "post"
         const val TYPE_FAVORITE = "local"
-        private const val SERIES = "fragment_series"
+        private const val SERIES = "fragment_series_list"
 
         fun getInstance(series: Series): Fragment {
             val instance = ArticleListFragment()
