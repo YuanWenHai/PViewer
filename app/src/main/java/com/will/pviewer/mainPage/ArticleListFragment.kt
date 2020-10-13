@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import com.will.pviewer.R
 import com.will.pviewer.mainPage.adapter.ArticleListAdapter
 import com.will.pviewer.mainPage.adapter.ArticleListLoadStateAdapter
 import com.will.pviewer.data.*
@@ -38,19 +39,18 @@ class ArticleListFragment private  constructor(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentArticleListBinding.inflate(inflater,container,false)
-
-        initAdapter(binding)
+        init(binding)
 
         return binding.root
     }
-    private fun initAdapter(binding: FragmentArticleListBinding){
+    private fun init(binding: FragmentArticleListBinding){
         val adapter = ArticleListAdapter()
         binding.fragmentArticleListRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ArticleListLoadStateAdapter(adapter),
             footer = ArticleListLoadStateAdapter(adapter)
         )
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
-
+        binding.fragmentArticleListRefresh.setColorSchemeResources(R.color.colorPrimary)
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             Log.d(LOG_TAG,"start collect articles with series: ${getSeries(this@ArticleListFragment).name} ")
             viewModel.articles.collectLatest {
@@ -62,7 +62,7 @@ class ArticleListFragment private  constructor(): Fragment() {
             adapter.loadStateFlow.collectLatest {
                 binding.fragmentArticleListRefresh.isRefreshing = it.refresh is LoadState.Loading
                 binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0
-                binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
+                //binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
             }
 
 

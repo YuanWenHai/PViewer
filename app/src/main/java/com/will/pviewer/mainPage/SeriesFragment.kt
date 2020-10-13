@@ -38,6 +38,7 @@ class SeriesFragment: Fragment() {
     ): View? {
         val binding: FragmentSeriesListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_series_list,container,false)
         val adapter = SeriesAdapter()
+        binding.fragmentSeriesListRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.fragmentSeriesListRecycler.addItemDecoration(DividerItemDecoration(requireContext(),LinearLayout.VERTICAL))
         binding.fragmentSeriesListRefresh.setOnRefreshListener {viewModel.getSeries()}
         binding.fragmentSeriesListRecycler.adapter = adapter

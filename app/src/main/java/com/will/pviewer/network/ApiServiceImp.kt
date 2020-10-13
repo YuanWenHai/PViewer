@@ -10,6 +10,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.HTTP
+import java.io.IOException
 import java.lang.Exception
 import java.net.ConnectException
 
@@ -42,8 +43,8 @@ class ApiServiceImp private constructor(): ApiService {
     ): Response<ArticleQueryResponse> {
         return try{
             imp.getArticleList(series,page,size)
-        }catch (c: ConnectException){
-            c.printStackTrace()
+        }catch (i: IOException){
+            i.printStackTrace()
             //Log.e(LOG_TAG,"met a connection error,may caused by the server")
             Response.error(CONNECTION_ERROR, ResponseBody.create(null,"met a connection error,may caused by the server"))
         }
@@ -53,8 +54,8 @@ class ApiServiceImp private constructor(): ApiService {
     override suspend fun getSeriesList(): Response<SeriesQueryResponse> {
         return try{
             imp.getSeriesList()
-        }catch (c: ConnectException){
-            c.printStackTrace()
+        }catch (i: IOException){
+            i.printStackTrace()
             //Log.e(LOG_TAG,"met a connection error,may caused by the server")
             Response.error(CONNECTION_ERROR, ResponseBody.create(null,"met a connection error,may caused by the server"))
         }

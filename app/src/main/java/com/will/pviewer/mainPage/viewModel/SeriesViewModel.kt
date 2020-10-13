@@ -23,16 +23,16 @@ class SeriesViewModel(private val api: ApiService): ViewModel() {
         isLoading.value = true
         viewModelScope.launch(IO){
             val response = api.getSeriesList()
-            if(response.isSuccessful){
-                withContext(Main){
+            withContext(Main){
+                if(response.isSuccessful){
                     val seriesList = response.body()?.list?.map { SeriesResponse.toSeries(it) }
                     series.value = seriesList
+                }else{
+                    Log.e(LOG_TAG,"error on getSeriesList() request,response code:${response.code()}")
                 }
-            }else{
-                Log.e(LOG_TAG,"error on getSeriesList() request,response code:${response.code()}")
+                isLoading.value = false
             }
         }
-        isLoading.value = false
         return series
     }
     fun isLoading(): LiveData<Boolean> = isLoading
