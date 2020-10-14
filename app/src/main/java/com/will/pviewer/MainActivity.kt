@@ -8,7 +8,7 @@ import com.will.pviewer.adapter.NavigationItems
 import com.will.pviewer.adapter.NavigationPagerAdapter
 import com.will.pviewer.databinding.ActivityMainBinding
 
-//todo 1.foreground download service 2.androidx-navigation 3.socket timeout exception catching 4.launching frame skipping
+//todo 1.foreground download service 2.androidx-navigation 4.launching frame skipping
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

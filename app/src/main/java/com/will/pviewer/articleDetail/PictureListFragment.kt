@@ -1,6 +1,7 @@
 package com.will.pviewer.articleDetail
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.PictureAdapter
+import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.databinding.FragmentPictureListBinding
 import com.will.pviewer.mainPage.viewModel.ArticleViewModel
 import com.will.pviewer.articleDetail.viewModel.PictureListViewModel
@@ -83,13 +85,15 @@ class PictureListFragment(): Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.picture_toolbar_download_article){
-            saveOnSimpleThread(article,requireContext().applicationContext)
+            //saveOnSimpleThread(article,requireContext().applicationContext)
+            val intent = Intent(requireContext(),DownloadService::class.java)
+            requireContext().startService(intent)
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
-    suspend private fun save(articleWithPictures: ArticleWithPictures,context: Context){
+     private fun save(articleWithPictures: ArticleWithPictures,context: Context){
 
         val count = AppDatabase.getInstance(requireContext()).articleDao().getArticleCountByUuid(articleWithPictures.article.uuid)
         if(count != 0){
