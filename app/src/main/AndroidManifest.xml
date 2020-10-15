@@ -13,10 +13,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:largeHeap="true"
-        android:screenOrientation="portrait"
+
         >
         <activity android:name=".MainActivity"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,10 +28,12 @@
         <activity
             android:name=".articleDetail.ArticleActivity"
             android:theme="@style/AppThemeNoActionBar"
+            android:screenOrientation="portrait"
             />
         <activity
             android:name=".mainPage.ArticleListActivity"
             android:theme="@style/AppThemeNoActionBar"
+            android:screenOrientation="portrait"
             />
         <service android:name=".articleDetail.service.DownloadService"/>
     </application>

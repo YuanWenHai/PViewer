@@ -27,9 +27,7 @@ data class ArticleResponse(
 ) {
 
     fun toArticleWithPictures(): ArticleWithPictures{
-        val article = Article(uuid,title,author,publishTime,picCount,link,
-            series
-        )
+        val article = Article(uuid,title,author,publishTime,picCount,link, series,false)
         val pictures = pictureList.map { it.toPicture(article) }
         return ArticleWithPictures(article,pictures)
     }

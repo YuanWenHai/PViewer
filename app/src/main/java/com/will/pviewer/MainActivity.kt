@@ -8,8 +8,11 @@ import com.will.pviewer.adapter.NavigationItems
 import com.will.pviewer.adapter.NavigationPagerAdapter
 import com.will.pviewer.databinding.ActivityMainBinding
 
-//todo 1.foreground download service 2.androidx-navigation 4.launching frame skipping
-
+//todo
+// 1.foreground download service and picturelist fragment's status change,service binding .etc
+// 2.androidx-navigation
+// 3.launching frame skipping
+// 4.favorite delete
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

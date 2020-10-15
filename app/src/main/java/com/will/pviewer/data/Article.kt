@@ -16,9 +16,10 @@ data class Article(
     val publishTime: String,
     val picCount: Int,
     val link: String,
-    val series: String
+    val series: String,
+    val exist: Boolean
 ): Serializable {
     @PrimaryKey(autoGenerate = true) var id = 0
 
-    constructor(article: Article,picCount: Int,exist: Boolean): this(article.uuid,article.title,article.author,article.publishTime,picCount,article.link,article.series)
+    constructor(article: Article,picCount: Int,exist: Boolean): this(article.uuid,article.title,article.author,article.publishTime,picCount,article.link,article.series,exist)
 }

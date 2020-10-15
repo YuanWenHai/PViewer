@@ -4,7 +4,7 @@
     <item
         android:id="@+id/picture_toolbar_download_article"
         android:title="@string/download"
-        android:icon="@drawable/icon_save"
+        android:icon="@drawable/icon_favorite"
         app:showAsAction="always"
         />
 </menu>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Environment
+import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.will.pviewer.MainActivity
@@ -17,52 +18,47 @@ import com.will.pviewer.network.PictureDownloadCallback
 import com.will.pviewer.network.PictureDownloader
 import com.will.pviewer.setting.LOG_TAG
 import java.io.File
-import java.io.InterruptedIOException
+import java.lang.IllegalArgumentException
 
 /**
  * created  by will on 2020/10/14 12:43
  */
 private const val SERVICE_NAME = "download_service"
 private const val NOTIFICATION_ID = 668
-const val ARTICLE_DATA = "article_data"
-class DownloadService: IntentService(SERVICE_NAME) {
+const val DOWNLOAD_SERVICE_ARTICLE_DATA = "article_data"
+class DownloadService: Service() {
+
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val pendingIntent: PendingIntent = Intent(this, MainActivity::class.java).let {
-            PendingIntent.getActivity(this,0,it,0)
-        }
         createNotificationChannel()
-        val notification = NotificationCompat.Builder(this, SERVICE_NAME)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Article Title")
-            .setContentText("Article Content")
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setProgress(100,30,false)
-            .build()
+        intent?.let {
+            it.getSerializableExtra(DOWNLOAD_SERVICE_ARTICLE_DATA)?.let {data ->
+                data as ArticleWithPictures
+                startForeground(NOTIFICATION_ID,makeNotification(data.article.title,data.pictureList.size,0))
+                download(data)
+            }
+        }
 
-        startForeground(NOTIFICATION_ID,notification)
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun onHandleIntent(intent: Intent?) {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        intent?.let {
-            it.getSerializableExtra(ARTICLE_DATA)
-        }
-        val articleWithPictures = intent?.
-        pushNotification()
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
+
+    private fun getNotificationManager(): NotificationManager{
+        return getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     }
-    private fun pushNotification(title: String,content: String,max: Int,progress: Int,manager: NotificationManager){
-        val notification =  NotificationCompat.Builder(this, SERVICE_NAME)
+    private fun makeNotification(title: String,max: Int,progress: Int): Notification{
+        return NotificationCompat.Builder(this, SERVICE_NAME)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
-            .setContentText(content)
+            .setContentText("$progress/$max")
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setProgress(max,progress,false)
             .build()
-        manager.notify(NOTIFICATION_ID,notification)
     }
 
     private fun createNotificationChannel() {
@@ -74,10 +70,7 @@ class DownloadService: IntentService(SERVICE_NAME) {
             val channel = NotificationChannel(SERVICE_NAME, SERVICE_NAME, importance).apply {
                 description = descriptionText
             }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            getNotificationManager().createNotificationChannel(channel)
         }
     }
 
@@ -85,10 +78,12 @@ class DownloadService: IntentService(SERVICE_NAME) {
         val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val fileDir = File(root,articleWithPictures.article.uuid)
         fileDir.mkdirs()
+
         PictureDownloader(fileDir,articleWithPictures,
             object: PictureDownloadCallback {
-                override fun onResult(picture: Picture) {
 
+                override fun onResult(total: Int, succeed: Int, picture: Picture) {
+                    getNotificationManager().notify(NOTIFICATION_ID,makeNotification(articleWithPictures.article.title,total,succeed))
                 }
 
                 override fun onError(picture: Picture) {
@@ -103,6 +98,8 @@ class DownloadService: IntentService(SERVICE_NAME) {
                     }
                     val msg = "下载:${article.title} 到$fileDir ,共有图片${articleWithPictures.pictureList.size}张,下载成功$succeed 张"
                     Log.d(LOG_TAG,msg)
+                    stopSelf()
+                    //pushNotification(articleWithPictures.article.title,"download finished",0,0,notificationManager)
                 }
             }).downloadPictures()
     }

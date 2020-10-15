@@ -37,8 +37,8 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
                         FileHelper.writeStreamToFile(response.body()!!.byteStream(),filePath)
                         val resultPicture = Picture(picture,filePath.path,
                             response.body()!!.byteStream().readBytes().size,true,articleWithPictures.article.uuid)
-                        callback.onResult(resultPicture)
                         succeed++
+                        callback.onResult(pictures.size,succeed,resultPicture)
                         collectSucceed(resultPicture)
                     }else{
                         callback.onError(picture)
@@ -49,6 +49,7 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
             })
         }
         }
+
     private fun collectSucceed(picture: Picture){
         synchronized(this){
             succeedList.add(picture)
@@ -62,7 +63,7 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
     }
 }
 interface PictureDownloadCallback{
-    fun onResult(picture: Picture)
+    fun onResult(total: Int,succeed: Int,picture: Picture)
     fun onError(picture: Picture)
     fun onFinish(total: Int,succeed: Int,succeedList: List<Picture>)
 }

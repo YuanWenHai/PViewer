@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.PictureAdapter
+import com.will.pviewer.articleDetail.service.DOWNLOAD_SERVICE_ARTICLE_DATA
 import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.databinding.FragmentPictureListBinding
 import com.will.pviewer.mainPage.viewModel.ArticleViewModel
@@ -71,12 +72,7 @@ class PictureListFragment(): Fragment() {
         })
     }
 
-    private fun saveOnSimpleThread(articleWithPictures: ArticleWithPictures,context: Context){
-        //TODO  这里将在后期更新为coroutine or rxjava
-        viewLifecycleOwner.lifecycleScope.launch(IO){
-            save(articleWithPictures,context)
-        }
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_picture_list,menu)
@@ -85,46 +81,13 @@ class PictureListFragment(): Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.picture_toolbar_download_article){
-            //saveOnSimpleThread(article,requireContext().applicationContext)
-            val intent = Intent(requireContext(),DownloadService::class.java)
+            val intent = Intent(requireContext(),DownloadService::class.java).apply {
+                putExtra(DOWNLOAD_SERVICE_ARTICLE_DATA,article)
+            }
             requireContext().startService(intent)
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-     private fun save(articleWithPictures: ArticleWithPictures,context: Context){
-
-        val count = AppDatabase.getInstance(requireContext()).articleDao().getArticleCountByUuid(articleWithPictures.article.uuid)
-        if(count != 0){
-            Log.w(LOG_TAG,"download cancel,article ${articleWithPictures.article.title} already exists")
-            return
-        }
-        requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
-                rootDir ->
-            val fileDir = File(rootDir,articleWithPictures.article.uuid)
-            fileDir.mkdirs()
-            PictureDownloader(fileDir,articleWithPictures,
-                object: PictureDownloadCallback{
-                override fun onResult(picture: Picture) {
-
-                }
-
-                override fun onError(picture: Picture) {
-
-                }
-
-                override fun onFinish(total: Int, succeed: Int,succeedList: List<Picture>) {
-                    val article = Article(articleWithPictures.article,succeed,true)
-                    AppDatabase.getInstance(context).apply {
-                        articleDao().insertArticle(article)
-                        pictureDao().insertPictures(succeedList)
-                    }
-                    val msg = "下载:${article.title} 到$fileDir ,共有图片${articleWithPictures.pictureList.size}张,下载成功$succeed 张"
-                    Log.d(LOG_TAG,msg)
-                }
-            }).downloadPictures()
-        }
     }
 
 }
