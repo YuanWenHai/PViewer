@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_graph"
+    app:startDestination="@id/articleListFragment">
+
+    <fragment
+        android:id="@+id/articleListFragment"
+        android:name="com.will.pviewer.mainPage.ArticleListFragment"
+        android:label="ArticleListFragment" >
+        <action
+            android:id="@+id/action_articleListFragment_to_articleActivity"
+            app:destination="@id/articleActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalFragment"
+        android:name="com.will.pviewer.mainPage.PersonalFragment"
+        android:label="PersonalFragment" >
+        <action
+            android:id="@+id/action_personalFragment_to_articleListActivity"
+            app:destination="@id/articleListActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/seriesFragment"
+        android:name="com.will.pviewer.mainPage.SeriesFragment"
+        android:label="SeriesFragment" >
+        <action
+            android:id="@+id/action_seriesFragment_to_articleListActivity"
+            app:destination="@id/articleListActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/articleActivity"
+        android:name="com.will.pviewer.articleDetail.ArticleActivity"
+        android:label="ArticleActivity" />
+    <activity
+        android:id="@+id/articleListActivity"
+        android:name="com.will.pviewer.mainPage.ArticleListActivity"
+        android:label="ArticleListActivity" />
+</navigation>
