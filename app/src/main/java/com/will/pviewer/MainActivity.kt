@@ -3,10 +3,13 @@ package com.will.pviewer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.will.pviewer.adapter.NavigationItems
 import com.will.pviewer.adapter.NavigationPagerAdapter
 import com.will.pviewer.databinding.ActivityMainBinding
+import com.will.pviewer.extension.setupWithNavController
 
 //todo
 // 1.foreground download service and picturelist fragment's status change,service binding .etc
@@ -16,10 +19,18 @@ import com.will.pviewer.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeView()
+        //initializeView()
+        init()
     }
 
-    private fun initializeView(){
+
+    private fun init(){
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        val navGraphIds = listOf(R.navigation.selfie,R.navigation.post,R.navigation.series,R.navigation.personal)
+        binding.mainNavigationView.setupWithNavController(navGraphIds,supportFragmentManager,R.id.main_container,intent)
+    }
+
+    /*private fun initializeView(){
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         val navigation = binding.mainNavigationView
         val pager = binding.mainViewPager
@@ -40,5 +51,5 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    }
+    }*/
 }

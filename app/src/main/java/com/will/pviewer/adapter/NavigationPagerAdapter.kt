@@ -5,9 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.will.pviewer.R
 import com.will.pviewer.data.Series
-import com.will.pviewer.mainPage.ArticleListFragment
-import com.will.pviewer.mainPage.PersonalFragment
-import com.will.pviewer.mainPage.SeriesFragment
+import com.will.pviewer.mainPage.*
 
 /**
  * created  by will on 2020/8/29 16:00
@@ -46,8 +44,8 @@ enum class NavigationItems(val index: Int){
 
     fun getFragment(): Fragment {
         return when(this){
-            Selfie -> ArticleListFragment.getInstance(com.will.pviewer.data.Series.getSelfieSeries())
-            Post -> ArticleListFragment.getInstance(com.will.pviewer.data.Series.getPostSeries())
+            Selfie -> SelfieListFragment()
+            Post -> PostListFragment()
             Series -> SeriesFragment()
             Personal -> PersonalFragment()
         }

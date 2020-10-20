@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/article_graph"
+    app:startDestination="@id/pictureListFragment">
+
+    <fragment
+        android:id="@+id/pictureListFragment"
+        android:name="com.will.pviewer.articleDetail.PictureListFragment"
+        android:label="PictureListFragment" >
+        <action
+            android:id="@+id/action_pictureListFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.will.pviewer.articleDetail.GalleryFragment"
+        android:label="GalleryFragment" />
+</navigation>

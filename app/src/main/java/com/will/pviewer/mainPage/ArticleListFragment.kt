@@ -23,13 +23,13 @@ import kotlinx.coroutines.flow.collectLatest
 /**
  * created  by will on 2020/8/23 16:29
  */
-class ArticleListFragment private  constructor(): Fragment() {
+ abstract class ArticleListFragment: Fragment() {
 
 
     private val viewModel: ArticleListViewModel by viewModels{
         ArticleListViewModelFactory(
             ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(requireContext()).articleWithPicturesDao()),
-            getSeries(this).alias)
+            getSeries().alias)
     }
 
 
@@ -52,7 +52,7 @@ class ArticleListFragment private  constructor(): Fragment() {
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
         binding.fragmentArticleListRefresh.setColorSchemeResources(R.color.colorPrimary)
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            Log.d(LOG_TAG,"start collect articles with series: ${getSeries(this@ArticleListFragment).name} ")
+            Log.d(LOG_TAG,"start collect articles with series: ${getSeries().name} ")
             viewModel.articles.collectLatest {
                 adapter.submitData(it)
             }
@@ -85,7 +85,10 @@ class ArticleListFragment private  constructor(): Fragment() {
         requireActivity().runOnUiThread{Toast.makeText(context,"added",Toast.LENGTH_SHORT).show()}
 
     }*/
-    companion object{
+
+    abstract fun getSeries(): Series
+
+   /* companion object{
         const val TYPE_SELFIE = "selfie"
         const val TYPE_POST = "post"
         const val TYPE_FAVORITE = "local"
@@ -102,5 +105,5 @@ class ArticleListFragment private  constructor(): Fragment() {
         private fun getSeries(fragment: Fragment): Series{
              return fragment.requireArguments().getSerializable(SERIES) as Series? ?: Series.getLocalSeries()
         }
-    }
+    }*/
 }

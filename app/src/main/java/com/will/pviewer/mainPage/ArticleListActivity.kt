@@ -19,7 +19,7 @@ class ArticleListActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivitySeriesBinding>(this,R.layout.activity_series)
         val series = getSeries()
-        val fragment = ArticleListFragment.getInstance(series)
+        val fragment = PostListFragment()
         binding.activityArticleListToolbar.title = series.name
         supportFragmentManager.beginTransaction().add(binding.activityArticleListContainer.id,fragment).commit()
         setSupportActionBar(binding.activityArticleListToolbar)

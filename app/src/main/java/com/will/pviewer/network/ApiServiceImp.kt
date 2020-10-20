@@ -21,7 +21,7 @@ class ApiServiceImp private constructor(): ApiService {
 
     companion object{
         const val CONNECTION_ERROR = 666
-        private const val BASE_URL = "http://10.4.1.106:8080/"
+        private const val BASE_URL = "http://10.4.1.71:8080/"
         //private const val BASE_URL = "http://192.168.50.68:8080/"
         private val instance = ApiServiceImp()
         fun get(): ApiService{

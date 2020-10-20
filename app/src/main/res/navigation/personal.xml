@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/personal"
+    app:startDestination="@id/personal_screen">
+
+    <fragment
+        android:id="@+id/personal_screen"
+        android:name="com.will.pviewer.mainPage.PersonalFragment"
+        android:label="PersonalFragment" >
+        <action
+            android:id="@+id/action_personal_screen_to_article_list"
+            app:destination="@id/article_list" />
+    </fragment>
+    <include app:graph="@navigation/article_list" />
+</navigation>
