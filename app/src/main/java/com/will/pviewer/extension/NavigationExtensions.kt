@@ -20,6 +20,9 @@ import android.content.Intent
 import android.util.SparseArray
 import androidx.core.util.forEach
 import androidx.core.util.set
+import androidx.core.view.forEach
+import androidx.core.view.forEachIndexed
+import androidx.core.view.iterator
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +30,59 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.will.pviewer.R
+import java.lang.IllegalArgumentException
+
+
+fun BottomNavigationView.setupWithNavController( navGraphIds: List<Int>,
+                                             fragmentManager: FragmentManager,
+                                             containerId: Int){
+
+    val navMap = SparseArray<NavHostFragment>()
+    val selectedNavController = MutableLiveData<NavController>()
+    var selectedItemId = 0
+    if(menu.size() != navGraphIds.size){
+        throw IllegalArgumentException("navGraphIds.size != menu.size,must ensure that size is same")
+    }
+    menu.forEachIndexed { index, item ->
+        var navFragment = navMap[item.itemId]
+        if(navFragment == null){
+            navFragment = NavHostFragment.create(navGraphIds[index])
+            navMap[item.itemId] = navFragment
+        }
+        if (index == 0) {
+            selectedItemId = item.itemId
+            fragmentManager.beginTransaction()
+                .withAnimation()
+                .add(containerId, navFragment,item.itemId.toString())
+                .commitNow()
+            // Update livedata with the selected graph
+            selectedNavController.value = navFragment.navController
+        }
+    }
+    setOnNavigationItemSelectedListener { item ->
+
+        if(selectedItemId != item.itemId){
+            navMap.forEach{id,navFragment ->
+                val fragment = fragmentManager.findFragmentByTag(id.toString())
+                if(item.itemId == id){
+                    if(fragment == null){
+                        fragmentManager.beginTransaction().withAnimation().add(containerId,navFragment,item.itemId.toString()).commitNow()
+                    }else{
+                        fragmentManager.beginTransaction().withAnimation().show(fragment).commit()
+                    }
+                    selectedNavController.value = navFragment.navController
+                }else{
+                    fragment?.let {
+                        fragmentManager.beginTransaction().withAnimation().hide(it).commit()
+                    }
+                }
+            }
+            selectedItemId = item.itemId
+        }
+        true
+    }
+}
+
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].
@@ -74,8 +130,10 @@ fun BottomNavigationView.setupWithNavController(
             // Update livedata with the selected graph
             selectedNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
+            //showNavHostFragment(fragmentManager,navHostFragment)
         } else {
             detachNavHostFragment(fragmentManager, navHostFragment)
+            //hideNavHostFragment(fragmentManager,navHostFragment)
         }
     }
 
@@ -195,6 +253,14 @@ private fun BottomNavigationView.setupItemReselected(
     }
 }
 
+private fun hideNavHostFragment(fragmentManager: FragmentManager, navHostFragment: NavHostFragment){
+    fragmentManager.beginTransaction().hide(navHostFragment).commitNow()
+
+}
+private fun showNavHostFragment(fragmentManager: FragmentManager, navHostFragment: NavHostFragment){
+    fragmentManager.beginTransaction().show(navHostFragment).commitNow()
+}
+
 private fun detachNavHostFragment(
     fragmentManager: FragmentManager,
     navHostFragment: NavHostFragment
@@ -210,6 +276,7 @@ private fun attachNavHostFragment(
     isPrimaryNavFragment: Boolean
 ) {
     fragmentManager.beginTransaction()
+    fragmentManager.beginTransaction()
         .attach(navHostFragment)
         .apply {
             if (isPrimaryNavFragment) {
@@ -219,6 +286,7 @@ private fun attachNavHostFragment(
         .commitNow()
 
 }
+
 
 private fun obtainNavHostFragment(
     fragmentManager: FragmentManager,
@@ -234,6 +302,7 @@ private fun obtainNavHostFragment(
     val navHostFragment = NavHostFragment.create(navGraphId)
     fragmentManager.beginTransaction()
         .add(containerId, navHostFragment, fragmentTag)
+        .withAnimation()
         .commitNow()
     return navHostFragment
 }

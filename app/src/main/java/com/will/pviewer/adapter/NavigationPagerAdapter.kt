@@ -23,22 +23,22 @@ class NavigationPagerAdapter(activity: FragmentActivity): FragmentStateAdapter(a
 enum class NavigationItems(val index: Int){
     Selfie(0){
         override fun getIdRes(): Int {
-            return R.id.bottom_navigation_selfie
+            return R.id.selfie
         }
     }
     ,Post(1){
         override fun getIdRes(): Int {
-            return R.id.bottom_navigation_post
+            return R.id.post
         }
     }
     ,Series(2){
         override fun getIdRes(): Int {
-            return R.id.bottom_navigation_series
+            return R.id.series
         }
     }
     ,Personal(3){
         override fun getIdRes(): Int {
-            return R.id.bottom_navigation_personal
+            return R.id.personal
         }
     };
 

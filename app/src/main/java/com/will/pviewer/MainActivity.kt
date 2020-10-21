@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private fun init(){
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         val navGraphIds = listOf(R.navigation.selfie,R.navigation.post,R.navigation.series,R.navigation.personal)
-        binding.mainNavigationView.setupWithNavController(navGraphIds,supportFragmentManager,R.id.main_container,intent)
+        binding.mainNavigationView.setupWithNavController(navGraphIds,supportFragmentManager,R.id.main_container)
     }
 
     /*private fun initializeView(){

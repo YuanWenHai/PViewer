@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bottom_navigation_selfie"
+        android:id="@+id/selfie"
         android:title="@string/selfie"
         android:icon="@drawable/icon_adjust" />
     <item
-        android:id="@+id/bottom_navigation_post"
+        android:id="@+id/post"
         android:title="@string/post"
         android:icon="@drawable/icon_collection"/>
     <!--<item
@@ -14,11 +14,11 @@
         android:icon="@drawable/icon_favorited"
         />-->
     <item
-        android:id="@+id/bottom_navigation_series"
+        android:id="@+id/series"
         android:title="@string/Series"
         android:icon="@drawable/icon_list"/>
     <item
-        android:id="@+id/bottom_navigation_personal"
+        android:id="@+id/personal"
         android:title="@string/personal"
         android:icon="@drawable/icon_personal"/>
 </menu>
