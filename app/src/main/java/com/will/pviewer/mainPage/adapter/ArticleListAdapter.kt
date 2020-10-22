@@ -26,12 +26,12 @@ import com.will.pviewer.util.Util
 /**
  * created  by will on 2020/8/25 11:24
  */
-class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures, ArticleListAdapter.ViewHolder>(
+class ArticleListAdapter(val itemClickCallback: (articleWithPictures: ArticleWithPictures) -> Unit): PagingDataAdapter<ArticleWithPictures, ArticleListAdapter.ViewHolder>(
     ArticleDiffCallback()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_article,parent,false))
+        return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_article,parent,false),itemClickCallback)
     }
 
 
@@ -41,14 +41,17 @@ class ArticleListAdapter: PagingDataAdapter<ArticleWithPictures, ArticleListAdap
         }
     }
 
-    class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root){
+    class ViewHolder(private val binding: ItemArticleBinding,val itemClickCallback: (articleWithPictures: ArticleWithPictures) -> Unit): RecyclerView.ViewHolder(binding.root){
         init {
             binding.setClickListener {
                 //防止重复点击，1s延迟
                 Util.preventDoubleClick(it)
-                val intent = Intent(binding.root.context, ArticleActivity::class.java)
+                binding.viewModel?.let { viewModel ->
+                    itemClickCallback(viewModel.articleWithPictures)
+                }
+                /*val intent = Intent(binding.root.context, ArticleActivity::class.java)
                 intent.putExtra(ARTICLE_ACTIVITY_DATA,binding.viewModel?.articleWithPictures)
-                binding.itemArticleName.context.startActivity(intent)
+                binding.itemArticleName.context.startActivity(intent)*/
             }
         }
         fun bind(articleWithPictures: ArticleWithPictures){

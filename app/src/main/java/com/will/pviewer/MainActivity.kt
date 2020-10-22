@@ -2,14 +2,20 @@ package com.will.pviewer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.will.pviewer.adapter.NavigationItems
 import com.will.pviewer.adapter.NavigationPagerAdapter
+import com.will.pviewer.data.AppDatabase
+import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.databinding.ActivityMainBinding
 import com.will.pviewer.extension.setupWithNavController
+import com.will.pviewer.mainPage.viewModel.ArticleListViewModel
+import com.will.pviewer.mainPage.viewModel.ArticleListViewModelFactory
 
 //todo
 // 1.foreground download service and picturelist fragment's status change,service binding .etc
@@ -17,6 +23,14 @@ import com.will.pviewer.extension.setupWithNavController
 // 3.launching frame skipping
 // 4.favorite delete
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: ArticleListViewModel by viewModels{
+        ArticleListViewModelFactory(
+            ArticleWithPicturesRepository.getInstance(AppDatabase.getInstance(this).articleWithPicturesDao()),
+            getSeries().alias)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //initializeView()

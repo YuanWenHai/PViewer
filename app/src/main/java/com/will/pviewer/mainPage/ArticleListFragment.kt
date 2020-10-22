@@ -44,7 +44,7 @@ import kotlinx.coroutines.flow.collectLatest
         return binding.root
     }
     private fun init(binding: FragmentArticleListBinding){
-        val adapter = ArticleListAdapter()
+        val adapter = ArticleListAdapter{item: ArticleWithPictures -> onItemClick(item)}
         binding.fragmentArticleListRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ArticleListLoadStateAdapter(adapter),
             footer = ArticleListLoadStateAdapter(adapter)
@@ -68,42 +68,9 @@ import kotlinx.coroutines.flow.collectLatest
 
         }
     }
-    /*private fun makeFakeData(){
-        val db = AppDatabase.getInstance(requireContext())
-        if(db.articleDao().getArticleCount() >= 5){
-            return
-        }
-        val articleUuid = Date().time.toString()
-        val article = Article(articleUuid,"Test Article: $articleUuid","Will","2020年8月27日19:59:28",5,"link: $articleUuid","sefie")
-        val pictures: ArrayList<Picture> = ArrayList()
-        for(i in 0..5){
-            val pictureUuid = Date().time.toString()
-            pictures.add(Picture(pictureUuid,articleUuid,"path: $articleUuid",131,"testpic:${i}","url:$articleUuid"))
-        }
-        ArticleRepository.getInstance(db.articleDao()).insertArticle(article)
-        PictureRepository.getInstance(db.pictureDao()).insertPictures(pictures)
-        requireActivity().runOnUiThread{Toast.makeText(context,"added",Toast.LENGTH_SHORT).show()}
-
-    }*/
 
     abstract fun getSeries(): Series
-
-   /* companion object{
-        const val TYPE_SELFIE = "selfie"
-        const val TYPE_POST = "post"
-        const val TYPE_FAVORITE = "local"
-        private const val SERIES = "fragment_series_list"
-
-        fun getInstance(series: Series): Fragment {
-            val instance = ArticleListFragment()
-            val bundle = Bundle().apply {
-                putSerializable(SERIES,series)
-            }
-            instance.arguments = bundle
-            return instance
-        }
-        private fun getSeries(fragment: Fragment): Series{
-             return fragment.requireArguments().getSerializable(SERIES) as Series? ?: Series.getLocalSeries()
-        }
-    }*/
+    open fun onItemClick(articleWithPictures: ArticleWithPictures){
+        
+    }
 }
