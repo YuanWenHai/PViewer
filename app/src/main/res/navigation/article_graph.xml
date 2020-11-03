@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/pictureListFragment"
         android:name="com.will.pviewer.articleDetail.PictureListFragment"
-        android:label="PictureListFragment" >
+        android:label="PictureList" >
         <action
             android:id="@+id/action_pictureListFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />

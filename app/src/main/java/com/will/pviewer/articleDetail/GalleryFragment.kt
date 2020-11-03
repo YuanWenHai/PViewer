@@ -15,6 +15,7 @@ import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.GalleryPagerAdapter
 import com.will.pviewer.articleDetail.viewModel.PictureListViewModel
 import com.will.pviewer.databinding.FragmentGalleryBinding
+import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.setting.LOG_TAG
 
 
@@ -22,7 +23,7 @@ import com.will.pviewer.setting.LOG_TAG
  * created  by will on 2020/9/18 17:21
  */
 class GalleryFragment(): Fragment(){
-    val viewModel: PictureListViewModel by activityViewModels()
+    private val appViewModel: AppViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,14 +33,15 @@ class GalleryFragment(): Fragment(){
             inflater,
             R.layout.fragment_gallery, container, false
         )
-        viewModel.getArticle().observe(viewLifecycleOwner, Observer {
+
+        appViewModel.currentDisplayingArticle.observe(viewLifecycleOwner, Observer {
             val adapter = GalleryPagerAdapter(requireActivity(), it.pictureList)
             //binding.fragmentGalleryDetail.text = it.article.title
             binding.fragmentGalleryPager.adapter = adapter
             binding.fragmentGalleryPager.offscreenPageLimit = 3
         })
-        viewModel.currentIndex.observe(viewLifecycleOwner, Observer {
-            Log.w(LOG_TAG, "clicked picture item index is: $it")
+        appViewModel.currentDisPlayingPictureIndex.observe(viewLifecycleOwner, Observer {
+            Log.d(LOG_TAG, "clicked picture item index is: $it")
             binding.fragmentGalleryPager.setCurrentItem(it, false)
         })
 

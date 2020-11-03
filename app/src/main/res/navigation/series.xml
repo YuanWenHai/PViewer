@@ -6,9 +6,9 @@
     <fragment
         android:id="@+id/series_screen"
         android:name="com.will.pviewer.mainPage.SeriesFragment"
-        android:label="SeriesFragment" >
+        android:label="Series">
         <action
-            android:id="@+id/action_series_screen_to_article_list"
+            android:id="@+id/action_series_to_list"
             app:destination="@id/article_list" />
     </fragment>
     <include app:graph="@navigation/article_list" />

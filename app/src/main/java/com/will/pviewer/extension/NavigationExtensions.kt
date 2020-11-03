@@ -35,7 +35,8 @@ import java.lang.IllegalArgumentException
 
 fun BottomNavigationView.setupWithNavController( navGraphIds: List<Int>,
                                              fragmentManager: FragmentManager,
-                                             containerId: Int){
+                                             containerId: Int): LiveData<NavController>{
+
 
     val navMap = SparseArray<NavHostFragment>()
     val selectedNavController = MutableLiveData<NavController>()
@@ -81,6 +82,7 @@ fun BottomNavigationView.setupWithNavController( navGraphIds: List<Int>,
         }
         true
     }
+    return selectedNavController
 }
 
 

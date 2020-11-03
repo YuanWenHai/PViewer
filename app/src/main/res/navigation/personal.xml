@@ -6,9 +6,9 @@
     <fragment
         android:id="@+id/personal_screen"
         android:name="com.will.pviewer.mainPage.PersonalFragment"
-        android:label="PersonalFragment" >
+        android:label="Personal">
         <action
-            android:id="@+id/action_personal_screen_to_article_list"
+            android:id="@+id/action_personal_to_list"
             app:destination="@id/article_list" />
     </fragment>
     <include app:graph="@navigation/article_list" />

@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppActionBarTheme"
             app:title="@{viewModel.name}"
+            android:visibility="gone"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_picture_list_recycler"

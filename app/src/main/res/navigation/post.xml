@@ -6,9 +6,9 @@
     <fragment
         android:id="@+id/post_screen"
         android:name="com.will.pviewer.mainPage.PostListFragment"
-        android:label="PostListFragment" >
+        android:label="Post">
         <action
-            android:id="@+id/action_post_screen_to_article_detail"
+            android:id="@+id/action_post_to_detail"
             app:destination="@id/article_detail" />
     </fragment>
     <include app:graph="@navigation/article_detail" />
