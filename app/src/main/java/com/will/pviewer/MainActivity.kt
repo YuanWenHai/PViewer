@@ -3,6 +3,7 @@ package com.will.pviewer
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -76,8 +77,21 @@ class MainActivity : AppCompatActivity() {
             setupActionBarWithNavController(it)
         })
     }
-
+    private var backPressedOnce = false
     override fun onBackPressed() {
+        currentController?.value?.let {
+            if(!it.popBackStack()){
+                if(backPressedOnce){
+                    finish()
+                }
+                val toast = Toast.makeText(this,"再按一次退出",Toast.LENGTH_SHORT)
+                toast.show()
+                backPressedOnce = true
+                toast.view.postDelayed({
+                    backPressedOnce = false
+                },1000)
+            }
+        }
         currentController?.value?.popBackStack()
     }
 

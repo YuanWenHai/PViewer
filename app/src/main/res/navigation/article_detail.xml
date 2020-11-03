@@ -15,5 +15,5 @@
     <fragment
         android:id="@+id/gallery_screen"
         android:name="com.will.pviewer.articleDetail.GalleryFragment"
-        android:label="GalleryFragment" />
+        android:label="Gallery" />
 </navigation>

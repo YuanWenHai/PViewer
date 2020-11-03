@@ -56,7 +56,7 @@ class PictureListFragment(): BaseFragment() {
         val adapter = PictureAdapter{
             appViewModel.currentDisPlayingPictureIndex.value = it
 
-            val action = PictureListFragmentDirections.actionPictureListFragmentToGalleryFragment()
+            val action = PictureListFragmentDirections.actionPictureListToGallery()
             findNavController().navigate(action)
             //val gallery = GalleryFragment()
             //parentFragmentManager.beginTransaction().setCustomAnimations(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit).add(R.id.activity_article_detail_container,gallery,null).addToBackStack(null).commit()
