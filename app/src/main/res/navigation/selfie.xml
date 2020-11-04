@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/selfie_screen"
         android:name="com.will.pviewer.mainPage.SelfieListFragment"
-        android:label="Sefie">
+        android:label="@string/selfie">
         <action
             android:id="@+id/action_selfie_to_detail"
             app:destination="@id/article_detail" />

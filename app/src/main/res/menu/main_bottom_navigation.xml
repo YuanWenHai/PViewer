@@ -15,7 +15,7 @@
         />-->
     <item
         android:id="@+id/series"
-        android:title="@string/Series"
+        android:title="@string/series"
         android:icon="@drawable/icon_list"/>
     <item
         android:id="@+id/personal"

@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/series_screen"
         android:name="com.will.pviewer.mainPage.SeriesFragment"
-        android:label="Series">
+        android:label="@string/series">
         <action
             android:id="@+id/action_series_to_list"
             app:destination="@id/article_list" />

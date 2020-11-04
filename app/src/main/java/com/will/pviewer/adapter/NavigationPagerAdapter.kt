@@ -20,7 +20,7 @@ class NavigationPagerAdapter(activity: FragmentActivity): FragmentStateAdapter(a
         return NavigationItems.values()[position].getFragment()
     }
 }
-enum class NavigationItems(val index: Int){
+private enum class NavigationItems(val index: Int){
     Selfie(0){
         override fun getIdRes(): Int {
             return R.id.selfie

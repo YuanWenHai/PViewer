@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/post_screen"
         android:name="com.will.pviewer.mainPage.PostListFragment"
-        android:label="Post">
+        android:label="@string/post">
         <action
             android:id="@+id/action_post_to_detail"
             app:destination="@id/article_detail" />
