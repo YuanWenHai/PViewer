@@ -1,22 +1,14 @@
 package com.will.pviewer.mainPage.adapter
 
-import android.content.Intent
-import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.will.pviewer.articleDetail.ARTICLE_ACTIVITY_DATA
-import com.will.pviewer.articleDetail.ArticleActivity
 import com.will.pviewer.R
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.databinding.ItemArticleBinding

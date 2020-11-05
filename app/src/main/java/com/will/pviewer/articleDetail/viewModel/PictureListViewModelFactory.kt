@@ -9,6 +9,6 @@ import com.will.pviewer.data.ArticleWithPictures
  */
 class PictureListViewModelFactory(private val article: ArticleWithPictures): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PictureListViewModel(article) as T
+        return DetailViewModel(article) as T
     }
 }

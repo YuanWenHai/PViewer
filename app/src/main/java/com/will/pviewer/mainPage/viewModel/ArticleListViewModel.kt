@@ -14,17 +14,12 @@ import org.intellij.lang.annotations.Flow
 /**
  * created  by will on 2020/8/25 11:05
  */
-class ArticleListViewModel(private val repository: ArticleWithPicturesRepository,private val apiService: ApiService,private val series: String): ViewModel() {
+class ArticleListViewModel(apiService: ApiService,series: String): ViewModel() {
 
-    val articles = when(series){
-        Series.Local -> Pager(PagingConfig(pageSize = 20,enablePlaceholders = true,maxSize = 200)){
-                repository.getAllArticlesInPaging()
-            }.flow
-
-        else -> Pager(
+    val articleFlow = Pager(
             PagingConfig(pageSize = 10,enablePlaceholders = true,initialLoadSize = 10)
         ){
             ArticleListPagingSource(apiService,series)
         }.flow
-    }
+
 }

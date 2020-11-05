@@ -3,30 +3,24 @@ package com.will.pviewer.articleDetail
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.observe
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.PictureAdapter
-import com.will.pviewer.articleDetail.service.DOWNLOAD_SERVICE_ARTICLE_DATA
 import com.will.pviewer.articleDetail.service.DownloadService
-import com.will.pviewer.articleDetail.viewModel.PictureListViewModel
-import com.will.pviewer.base.BaseFragment
-import com.will.pviewer.data.ArticleWithPictures
+import com.will.pviewer.articleDetail.viewModel.DetailViewModel
 import com.will.pviewer.databinding.FragmentPictureListBinding
-import com.will.pviewer.mainPage.viewModel.AppViewModel
-import com.will.pviewer.mainPage.viewModel.ArticleViewModel
+import com.will.pviewer.extension.withAnimation
 
 /**
  * created  by will on 2020/9/18 17:57
  */
-class PictureListFragment(): BaseFragment() {
+class PictureListFragment(): Fragment() {
     //val viewModel: PictureListViewModel by activityViewModels()
     //lateinit var article: ArticleWithPictures
-    private val appViewModel: AppViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,18 +48,21 @@ class PictureListFragment(): BaseFragment() {
         val list = binding.fragmentPictureListRecycler
 
         val adapter = PictureAdapter{
-            appViewModel.currentDisPlayingPictureIndex.value = it
-
-            val action = PictureListFragmentDirections.actionPictureListToGallery()
-            findNavController().navigate(action)
+            detailViewModel.currentIndex.value = it
+            parentFragmentManager.beginTransaction()
+                .withAnimation()
+                .replace(R.id.detail_container,GalleryFragment())
+                .addToBackStack(null)
+                .setReorderingAllowed(true)
+                .commit()
             //val gallery = GalleryFragment()
             //parentFragmentManager.beginTransaction().setCustomAnimations(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit).add(R.id.activity_article_detail_container,gallery,null).addToBackStack(null).commit()
         }
-        list.adapter = adapter
-        appViewModel.currentDisplayingArticle.observe(viewLifecycleOwner, Observer {
+        detailViewModel.getArticle().observe(viewLifecycleOwner){
             adapter.submitList(it.pictureList)
-            binding.viewModel = ArticleViewModel(it)
-        })
+        }
+        list.adapter = adapter
+
     }
 
 

@@ -18,9 +18,5 @@ class SelfieListFragment: ArticleListFragment() {
 
     override fun getDataFlow() = mainViewModel.selfieFlow
 
-    override fun onItemClick(articleWithPictures: ArticleWithPictures) {
-        val action = SelfieListFragmentDirections.actionSelfieToDetail()
 
-        findNavController().navigate(action)
-    }
 }

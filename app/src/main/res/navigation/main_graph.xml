@@ -29,7 +29,7 @@
     </fragment>
     <activity
         android:id="@+id/articleActivity"
-        android:name="com.will.pviewer.articleDetail.ArticleActivity"
+        android:name="com.will.pviewer.articleDetail.ArticleDetailActivity"
         android:label="ArticleActivity" />
     <activity
         android:id="@+id/articleListActivity"

@@ -1,23 +1,23 @@
 package com.will.pviewer.mainPage
 
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.Series
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
+import kotlinx.coroutines.flow.Flow
 
 /**
- * created  by will on 2020/10/20 17:53
+ * created  by will on 2020/11/5 18:06
  */
-class PostListFragment: ArticleListFragment() {
+class FavoriteListFragment: ArticleListFragment() {
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun getSeries(): Series {
-        return Series.getPostSeries()
+        return Series.getFavoriteSeries()
     }
 
-    override fun getDataFlow() = mainViewModel.postFlow
-
-
+    override fun getDataFlow(): Flow<PagingData<ArticleWithPictures>> {
+        return mainViewModel.favoriteFlow
+    }
 }

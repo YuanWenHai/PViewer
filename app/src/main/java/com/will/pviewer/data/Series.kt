@@ -11,7 +11,7 @@ data class Series(val name: String,val alias: String): Serializable {
         const val Local = "local"
 
 
-        fun getLocalSeries(): Series {
+        fun getFavoriteSeries(): Series {
             return Series("Favorite", Local)
         }
         fun getSelfieSeries(): Series{

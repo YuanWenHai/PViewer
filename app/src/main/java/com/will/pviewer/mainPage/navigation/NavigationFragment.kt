@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.will.pviewer.R
+import com.will.pviewer.databinding.ActivityMainBinding
 import com.will.pviewer.databinding.FragmentNavigationBinding
 import com.will.pviewer.mainPage.viewModel.MainViewModel
 
@@ -17,7 +18,6 @@ import com.will.pviewer.mainPage.viewModel.MainViewModel
  * created  by will on 2020/11/4 17:49
  */
 class NavigationFragment: Fragment() {
-    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,20 +25,25 @@ class NavigationFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentNavigationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_navigation,container,false)
+        initNavigation(binding)
+        return binding.root
+    }
+
+    private fun initNavigation(binding: FragmentNavigationBinding){
+
         val navigationAdapter = BottomNavigationAdapter(requireActivity())
         binding.navigationViewpager.adapter = navigationAdapter
         binding.navigationViewpager.offscreenPageLimit = 3
         binding.navigationViewpager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
-                mainViewModel.setCurrentSelectedNavigationItem()
-                mainViewModel.currentSelectedNavigationItem.value = NavigationItems.values()[position]
+                binding.navigationView.selectedItemId = NavigationItems.values()[position].menuItemId()
             }
         })
-        mainViewModel.currentSelectedNavigationItem.observe(viewLifecycleOwner){
-            binding.navigationViewpager.currentItem = it.index()
-        }
 
-        return binding.root
+        binding.navigationView.setOnNavigationItemSelectedListener {
+            binding.navigationViewpager.currentItem = NavigationItems.get(it.itemId).index()
+            true
+        }
     }
 
 }

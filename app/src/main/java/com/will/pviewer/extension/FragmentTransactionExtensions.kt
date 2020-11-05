@@ -9,8 +9,8 @@ import com.will.pviewer.R
 
 fun FragmentTransaction.withAnimation(): FragmentTransaction{
     return setCustomAnimations(
-        R.anim.slide_in_bottom,
-        R.anim.nav_default_exit_anim,
+        R.anim.slide_in_top,
+        R.anim.nav_default_pop_exit_anim,
         R.anim.nav_default_pop_enter_anim,
         R.anim.nav_default_pop_exit_anim)
 }

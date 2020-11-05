@@ -1,14 +1,11 @@
 package com.will.pviewer.mainPage
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.will.pviewer.R
 import com.will.pviewer.data.Series
 import com.will.pviewer.databinding.ActivitySeriesBinding
-import com.will.pviewer.setting.LOG_TAG
 
 /**
  * created  by will on 2020/9/29 11:16
@@ -31,7 +28,7 @@ class ArticleListActivity: AppCompatActivity() {
     }
 
     private fun getSeries(): Series{
-         return intent.getSerializableExtra(SERIES) as Series? ?: Series.getLocalSeries()
+         return intent.getSerializableExtra(SERIES) as Series? ?: Series.getFavoriteSeries()
     }
     companion object{
         const val SERIES = "activity_series"

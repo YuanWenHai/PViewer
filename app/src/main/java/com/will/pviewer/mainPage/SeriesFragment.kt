@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.will.pviewer.R
 import com.will.pviewer.databinding.FragmentSeriesListBinding
+import com.will.pviewer.extension.withAnimation
 import com.will.pviewer.mainPage.adapter.SeriesAdapter
 import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
@@ -22,21 +24,18 @@ import com.will.pviewer.mainPage.viewModel.MainViewModel
  * created  by will on 2020/9/24 11:22
  */
 class SeriesFragment: Fragment() {
-   /* val viewModel: SeriesViewModel by viewModels {
-        object: ViewModelProvider.Factory{
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return SeriesViewModel(ApiServiceImp.get()) as T
-            }
-        }
-    }*/
+
     private val mainViewModel: MainViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentSeriesListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_series_list,container,false)
-        val adapter = SeriesAdapter()
+        val adapter = SeriesAdapter{
+            parentFragmentManager.beginTransaction().withAnimation().replace(R.id.main_container,ArticleListFragmentImp.get(it)).addToBackStack("will").commit()
+        }
         binding.fragmentSeriesListRefresh.setColorSchemeResources(R.color.colorPrimary)
         binding.fragmentSeriesListRecycler.addItemDecoration(DividerItemDecoration(requireContext(),LinearLayout.VERTICAL))
         binding.fragmentSeriesListRefresh.setOnRefreshListener {mainViewModel.getSeries()}
@@ -56,12 +55,7 @@ class SeriesFragment: Fragment() {
             }
 
         }
-
-
         return binding.root
     }
 
-    private fun initialize(){
-
-    }
 }

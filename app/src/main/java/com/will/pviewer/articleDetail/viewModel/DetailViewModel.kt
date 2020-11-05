@@ -8,7 +8,7 @@ import com.will.pviewer.data.ArticleWithPictures
 /**
  * created  by will on 2020/9/18 18:02
  */
-class PictureListViewModel(articleWithPictures: ArticleWithPictures): ViewModel() {
+class DetailViewModel(articleWithPictures: ArticleWithPictures): ViewModel() {
     private val article = MutableLiveData<ArticleWithPictures>(articleWithPictures)
     val currentIndex = MutableLiveData(0)
 

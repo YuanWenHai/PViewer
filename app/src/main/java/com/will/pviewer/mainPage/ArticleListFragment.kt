@@ -1,24 +1,21 @@
 package com.will.pviewer.mainPage
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.will.pviewer.R
+import com.will.pviewer.articleDetail.ArticleDetailActivity
 import com.will.pviewer.base.BaseFragment
 import com.will.pviewer.mainPage.adapter.ArticleListAdapter
 import com.will.pviewer.mainPage.adapter.ArticleListLoadStateAdapter
 import com.will.pviewer.data.*
 import com.will.pviewer.databinding.FragmentArticleListBinding
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.setting.LOG_TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -68,15 +65,17 @@ import kotlinx.coroutines.launch
                 binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0
                 //binding.fragmentArticleListRecycler.isVisible = adapter.itemCount != 0
             }
-
-
         }
+    }
+
+    fun navigateToDetailActivity(articleWithPictures: ArticleWithPictures){
+        startActivity(ArticleDetailActivity.buildIntent(requireActivity(),articleWithPictures))
     }
 
 
     abstract fun getSeries(): Series
     abstract fun getDataFlow(): Flow<PagingData<ArticleWithPictures>>
     open fun onItemClick(articleWithPictures: ArticleWithPictures){
-
+        navigateToDetailActivity(articleWithPictures)
     }
 }

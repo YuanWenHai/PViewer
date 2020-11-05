@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.will.pviewer.R
 import com.will.pviewer.data.Series
 import com.will.pviewer.databinding.FragmentPersonalBinding
+import com.will.pviewer.extension.withAnimation
 import com.will.pviewer.util.Util
 
 /**
@@ -30,9 +31,7 @@ class PersonalFragment: Fragment() {
     private fun initialize(binding: FragmentPersonalBinding){
         binding.fragmentPersonalFavorite.setOnClickListener {
             Util.preventDoubleClick(it)
-            val intent = Intent(requireContext(),ArticleListActivity::class.java)
-            intent.putExtra(ArticleListActivity.SERIES,Series.getLocalSeries())
-            requireContext().startActivity(intent)
+            parentFragmentManager.beginTransaction().withAnimation().replace(R.id.main_container,FavoriteListFragment()).addToBackStack(null).setReorderingAllowed(true).commit()
         }
     }
 }

@@ -16,7 +16,7 @@ import com.will.pviewer.util.Util
 /**
  * created  by will on 2020/9/24 11:49
  */
-class SeriesAdapter(): ListAdapter<Series,SeriesAdapter.SeriesViewHolder>(DiffCallback()) {
+class SeriesAdapter(private val onItemClick: (Series) -> Unit): ListAdapter<Series,SeriesAdapter.SeriesViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeriesViewHolder {
         val binding = DataBindingUtil.inflate<ItemFragmentSeriesBinding>(LayoutInflater.from(parent.context),
@@ -28,14 +28,12 @@ class SeriesAdapter(): ListAdapter<Series,SeriesAdapter.SeriesViewHolder>(DiffCa
         holder.bind(getItem(position))
     }
 
-    class SeriesViewHolder(private val binding: ItemFragmentSeriesBinding): RecyclerView.ViewHolder(binding.root){
+    inner class SeriesViewHolder(private val binding: ItemFragmentSeriesBinding): RecyclerView.ViewHolder(binding.root){
         private lateinit var series: Series
         init {
             binding.root.setOnClickListener{
                 Util.preventDoubleClick(it)
-                val intent = Intent(it.context, ArticleListActivity::class.java)
-                intent.putExtra(ArticleListActivity.SERIES,series)
-                it.context.startActivity(intent)
+                onItemClick(series)
             }
         }
         fun bind(series: Series){

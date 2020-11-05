@@ -41,6 +41,8 @@ class MainViewModel(val apiService: ApiService,repository: ArticleWithPicturesRe
 
 
 
+
+
     val isSeriesListLoading = MutableLiveData<Boolean>()
     val seriesList: MutableLiveData<List<Series>> = MutableLiveData()
     fun getSeries(){

@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.databinding.ActivityMainBinding
+import com.will.pviewer.mainPage.navigation.NavigationFragment
 import com.will.pviewer.mainPage.navigation.NavigationItems
 import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
@@ -42,21 +43,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel
-        initNavigation()
-
-    }
-
-    private fun initNavigation(){
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.mainNavigationView.setOnNavigationItemSelectedListener {
-            mainViewModel.setCurrentSelectedNavigationItem(NavigationItems.get(it.itemId))
-            true
-        }
-        mainViewModel.getCurrentSelectedNavigationItem().observe(this){
-            binding.mainNavigationView.selectedItemId = it.menuItemId()
-        }
+        supportFragmentManager.beginTransaction().add(R.id.main_container,NavigationFragment()).commit()
     }
+
 
 
    /* private fun init() {
