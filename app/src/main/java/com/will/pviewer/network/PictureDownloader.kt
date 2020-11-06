@@ -36,7 +36,7 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
                         val filePath = File(destDir,picture.name)
                         FileHelper.writeStreamToFile(response.body()!!.byteStream(),filePath)
                         val resultPicture = Picture(picture,filePath.path,
-                            response.body()!!.byteStream().readBytes().size,true,articleWithPictures.article.uuid)
+                            response.body()!!.byteStream().readBytes().size,true,articleWithPictures.article.id)
                         succeed++
                         callback.onResult(pictures.size,succeed,resultPicture)
                         collectSucceed(resultPicture)

@@ -30,12 +30,9 @@ class ArticleDetailActivity: AppCompatActivity() {
         //window.decorView.systemUiVisibility =(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
       /*  window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)*/
-
         super.onCreate(savedInstanceState)
+        detailViewModel
         val binding = DataBindingUtil.setContentView<ActivityArticleDetailBinding>(this, R.layout.activity_article_detail)
-        detailViewModel.getArticle().observe(this){
-            binding.detailToolbar.title = it.article.title
-        }
         supportFragmentManager.beginTransaction().add(R.id.detail_container,PictureListFragment(),null).commit() //initialize()
     }
 

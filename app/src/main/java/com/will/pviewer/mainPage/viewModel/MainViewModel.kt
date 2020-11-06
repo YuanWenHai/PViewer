@@ -41,6 +41,7 @@ class MainViewModel(val apiService: ApiService,repository: ArticleWithPicturesRe
 
 
 
+    val toolbarTitle: MutableLiveData<String> = MutableLiveData()
 
 
     val isSeriesListLoading = MutableLiveData<Boolean>()

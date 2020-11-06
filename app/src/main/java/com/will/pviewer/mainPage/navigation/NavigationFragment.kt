@@ -18,7 +18,7 @@ import com.will.pviewer.mainPage.viewModel.MainViewModel
  * created  by will on 2020/11/4 17:49
  */
 class NavigationFragment: Fragment() {
-
+    private val mainViewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +37,7 @@ class NavigationFragment: Fragment() {
         binding.navigationViewpager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 binding.navigationView.selectedItemId = NavigationItems.values()[position].menuItemId()
+                mainViewModel.toolbarTitle.value = NavigationItems.values()[position].label()
             }
         })
 

@@ -9,7 +9,7 @@ import java.io.Serializable
  */
 data class ArticleWithPictures(
     @Embedded val article: Article,
-    @Relation(parentColumn = "uuid",entityColumn = "articleUuid")
+    @Relation(parentColumn = "id",entityColumn = "articleId")
     val pictureList: List<Picture>
 ): Serializable{
 

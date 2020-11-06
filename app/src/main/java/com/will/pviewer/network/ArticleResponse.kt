@@ -8,8 +8,8 @@ import com.will.pviewer.data.ArticleWithPictures
  * created  by will on 2020/9/17 10:32
  */
 data class ArticleResponse(
-    @Json(name = "uuid")
-    val uuid: String,
+    @Json(name = "id")
+    val id: Int,
     @Json(name = "title")
     val title: String,
     @Json(name = "author")
@@ -27,7 +27,7 @@ data class ArticleResponse(
 ) {
 
     fun toArticleWithPictures(): ArticleWithPictures{
-        val article = Article(uuid,title,author,publishTime,picCount,link, series,false)
+        val article = Article(id,title,author,publishTime,picCount,link, series,false)
         val pictures = pictureList.map { it.toPicture(article) }
         return ArticleWithPictures(article,pictures)
     }

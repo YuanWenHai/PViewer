@@ -4,11 +4,9 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Environment
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.will.pviewer.MainActivity
 import com.will.pviewer.R
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.Article
@@ -25,21 +23,16 @@ import java.lang.IllegalArgumentException
  */
 private const val SERVICE_NAME = "download_service"
 private const val NOTIFICATION_ID = 668
-const val DOWNLOAD_SERVICE_ARTICLE_DATA = "article_data"
 class DownloadService: Service() {
 
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
-        intent?.let {
-            it.getSerializableExtra(DOWNLOAD_SERVICE_ARTICLE_DATA)?.let {data ->
-                data as ArticleWithPictures
-                startForeground(NOTIFICATION_ID,makeNotification(data.article.title,data.pictureList.size,0))
-                download(data)
-            }
-        }
-
+        val articleWithPictures = getArticle(intent)
+        val downloadDir = getDownloadDirectory(intent)
+        startForeground(NOTIFICATION_ID,makeNotification(articleWithPictures.article.title,articleWithPictures.pictureList.size,0))
+        download(articleWithPictures,downloadDir)
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -74,9 +67,8 @@ class DownloadService: Service() {
         }
     }
 
-    private fun download(articleWithPictures: ArticleWithPictures){
-        val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val fileDir = File(root,articleWithPictures.article.uuid)
+    private fun download(articleWithPictures: ArticleWithPictures,root: File){
+        val fileDir = File(root,articleWithPictures.article.id.toString())
         fileDir.mkdirs()
 
         PictureDownloader(fileDir,articleWithPictures,
@@ -102,5 +94,31 @@ class DownloadService: Service() {
                     //pushNotification(articleWithPictures.article.title,"download finished",0,0,notificationManager)
                 }
             }).downloadPictures()
+    }
+    companion object{
+        private const val DATA_ARTICLE = "data_article"
+        private const val DATA_DIR = "data_dir"
+        fun buildIntent(context: Context,articleWithPictures: ArticleWithPictures,downloadDir: File): Intent{
+            return Intent(context,DownloadService::class.java).apply {
+                putExtra(DATA_ARTICLE,articleWithPictures)
+                putExtra(DATA_DIR,downloadDir)
+            }
+        }
+        fun getArticle(intent: Intent?): ArticleWithPictures{
+            intent?.let { param ->
+                param.getSerializableExtra(DATA_ARTICLE)?.let {
+                    return it as ArticleWithPictures
+                }
+            }
+            throw IllegalArgumentException("no data found in intent,must build intent from buildIntent()!!!")
+        }
+        fun getDownloadDirectory(intent: Intent?): File{
+            intent?.let { param ->
+                param.getSerializableExtra(DATA_DIR)?.let {
+                    return it as File
+                }
+            }
+            throw IllegalArgumentException("no data found in intent,must build intent from buildIntent()!!!")
+        }
     }
 }

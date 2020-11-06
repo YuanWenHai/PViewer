@@ -1,6 +1,7 @@
 package com.will.pviewer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -17,6 +18,7 @@ import com.will.pviewer.mainPage.navigation.NavigationItems
 import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
 import com.will.pviewer.network.ApiServiceImp
+import com.will.pviewer.setting.LOG_TAG
 
 //todo
 // 1.foreground download service and picturelist fragment's status change,service binding .etc
@@ -42,10 +44,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel
+
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setSupportActionBar(binding.mainToolbar)
+        binding.mainToolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
+        mainViewModel.toolbarTitle.observe(this){
+            binding.mainToolbar.title = it
+        }
         supportFragmentManager.beginTransaction().add(R.id.main_container,NavigationFragment()).commit()
+        supportFragmentManager.addOnBackStackChangedListener{
+            supportActionBar?.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
+
+        }
     }
 
 

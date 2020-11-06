@@ -9,13 +9,16 @@ import java.io.Serializable
  */
 @Entity(tableName = "pictures")
 data class Picture(
+
+    @PrimaryKey
+    val id: Int,
     val name: String,
     val url: String,
-    val articleUuid: String,
+    val articleId: Int,
 
     val path: String = "",
-    val size: Int = 0
+    val size: Int = 0,
+    val exist: Boolean = false
 ): Serializable {
-    @PrimaryKey(autoGenerate = true) var id = 0
-    constructor(picture: Picture,path: String,size: Int,exist: Boolean,articleUuid: String): this(picture.name,picture.url,articleUuid,path,size)
+    constructor(picture: Picture,path: String,size: Int,exist: Boolean,articleId: Int): this(picture.id,picture.name,picture.url,articleId,path,size,exist)
 }

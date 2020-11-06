@@ -7,7 +7,6 @@ class ArticleWithPicturesRepository private constructor(
     private val dao: ArticleWithPicturesDao
 ){
 
-    fun getArticleWithPicturesById(id: Int) = dao.getArticleWithPicturesById(id)
     fun getAllArticles() = dao.getAllArticleWithPictures()
     fun getAllArticlesInPaging() = dao.getAllArticleWithPicturesInPaging()
 

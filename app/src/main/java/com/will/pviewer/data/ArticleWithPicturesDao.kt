@@ -12,9 +12,11 @@ import androidx.room.Transaction
 @Dao
 interface ArticleWithPicturesDao {
 
+
     @Transaction
-    @Query("SELECT * FROM articles WHERE id = :id LIMIT 1")
-    fun getArticleWithPicturesById(id: Int): LiveData<ArticleWithPictures>
+    @Query("SELECT * FROM articles WHERE id = :id")
+    fun getArticleWIthPicturesById(id: String): LiveData<ArticleWithPictures>
+
 
     //todo
     //fun getArticlesWithPicturesByPage(pageSize: Int,pageCount: Int): LiveData<List<ArticleWithPictures>>

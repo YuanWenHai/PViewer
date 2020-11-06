@@ -15,7 +15,7 @@ interface ArticleDao {
     //fun getArticlesByAuthor(author: String): LiveData<List<Article>>
 
 
-    @Query("SELECT * FROM articles WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM articles WHERE id = :id")
     fun getArticleById(id: Int): LiveData<Article>
 
     @Query("SELECT * FROM articles")
@@ -30,6 +30,4 @@ interface ArticleDao {
     @Insert
     fun insertArticles(articles: List<Article>)
 
-    @Query("SELECT COUNT(uuid) FROM articles WHERE uuid = :uuid")
-    fun getArticleCountByUuid(uuid: String): Int
 }
