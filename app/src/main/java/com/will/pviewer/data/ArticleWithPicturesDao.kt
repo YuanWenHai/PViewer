@@ -15,7 +15,7 @@ interface ArticleWithPicturesDao {
 
     @Transaction
     @Query("SELECT * FROM articles WHERE id = :id")
-    fun getArticleWIthPicturesById(id: String): LiveData<ArticleWithPictures>
+    fun getArticleWIthPicturesById(id: Int): ArticleWithPictures?
 
 
     //todo

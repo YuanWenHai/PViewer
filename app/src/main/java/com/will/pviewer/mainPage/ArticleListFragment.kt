@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
         }
     }
 
-    fun navigateToDetailActivity(articleWithPictures: ArticleWithPictures){
+    private fun navigateToDetailActivity(articleWithPictures: ArticleWithPictures){
         startActivity(ArticleDetailActivity.buildIntent(requireActivity(),articleWithPictures))
     }
 

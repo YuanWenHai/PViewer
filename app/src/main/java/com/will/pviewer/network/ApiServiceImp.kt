@@ -21,8 +21,8 @@ class ApiServiceImp private constructor(): ApiService {
 
     companion object{
         const val CONNECTION_ERROR = 666
-        private const val BASE_URL = "http://10.4.1.118:8080/"
-        //private const val BASE_URL = "http://192.168.50.68:8080/"
+        //private const val BASE_URL = "http://10.4.1.118:8080/"
+        private const val BASE_URL = "http://192.168.50.68:8080/"
         private val instance = ApiServiceImp()
         fun get(): ApiService{
             return instance
@@ -45,7 +45,6 @@ class ApiServiceImp private constructor(): ApiService {
             imp.getArticleList(series,page,size)
         }catch (i: IOException){
             i.printStackTrace()
-            //Log.e(LOG_TAG,"met a connection error,may caused by the server")
             Response.error(CONNECTION_ERROR, ResponseBody.create(null,"met a connection error,may caused by the server"))
         }
 
@@ -56,7 +55,15 @@ class ApiServiceImp private constructor(): ApiService {
             imp.getSeriesList()
         }catch (i: IOException){
             i.printStackTrace()
-            //Log.e(LOG_TAG,"met a connection error,may caused by the server")
+            Response.error(CONNECTION_ERROR, ResponseBody.create(null,"met a connection error,may caused by the server"))
+        }
+    }
+
+    override suspend fun getArticle(articleId: Int): Response<ArticleResponse> {
+        return try{
+            imp.getArticle(articleId)
+        }catch (i: IOException){
+            i.printStackTrace()
             Response.error(CONNECTION_ERROR, ResponseBody.create(null,"met a connection error,may caused by the server"))
         }
     }

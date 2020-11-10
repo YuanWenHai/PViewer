@@ -1,5 +1,6 @@
 package com.will.pviewer.network
 
+import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.Series
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,4 +17,7 @@ interface ApiService {
 
     @GET("/series")
     suspend fun getSeriesList(): Response<SeriesQueryResponse>
+
+    @GET("article")
+    suspend fun getArticle(@Query("id") articleId: Int): Response<ArticleResponse>
 }

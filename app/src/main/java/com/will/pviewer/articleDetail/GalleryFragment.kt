@@ -33,7 +33,7 @@ class GalleryFragment(): Fragment(){
         )
 
         binding.fragmentGalleryPager.offscreenPageLimit = 3
-        detailViewModel.getArticle().observe(viewLifecycleOwner, Observer {
+        detailViewModel.article.observe(viewLifecycleOwner, Observer {
             binding.fragmentGalleryPager.adapter = GalleryPagerAdapter(requireActivity(), it.pictureList)
         })
         detailViewModel.currentIndex.observe(viewLifecycleOwner, Observer {

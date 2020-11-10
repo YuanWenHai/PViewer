@@ -37,7 +37,7 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
                         FileHelper.writeStreamToFile(response.body()!!.byteStream(),filePath)
                         val resultPicture = Picture(picture,filePath.path,
                             response.body()!!.byteStream().readBytes().size,true,articleWithPictures.article.id)
-                        succeed++
+                        inCreaseSucceed()
                         callback.onResult(pictures.size,succeed,resultPicture)
                         collectSucceed(resultPicture)
                     }else{
@@ -55,8 +55,18 @@ class PictureDownloader(private val destDir: File, private val articleWithPictur
             succeedList.add(picture)
         }
     }
+    private fun increaseFinished(){
+        synchronized(this){
+            finished++
+        }
+    }
+    private fun inCreaseSucceed(){
+        synchronized(this){
+            succeed++
+        }
+    }
     private fun checkIfFinished(){
-        finished++
+        increaseFinished()
         if(finished == pictures.size){
             callback.onFinish(finished,succeed,succeedList)
         }

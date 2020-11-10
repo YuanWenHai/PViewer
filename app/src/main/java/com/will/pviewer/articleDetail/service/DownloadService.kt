@@ -88,7 +88,7 @@ class DownloadService: Service() {
                         articleDao().insertArticle(article)
                         pictureDao().insertPictures(succeedList)
                     }
-                    val msg = "下载:${article.title} 到$fileDir ,共有图片${articleWithPictures.pictureList.size}张,下载成功$succeed 张"
+                    val msg = "下载:${article.title} 到$fileDir ,共有图片$total 张,下载成功$succeed 张"
                     Log.d(LOG_TAG,msg)
                     stopSelf()
                     //pushNotification(articleWithPictures.article.title,"download finished",0,0,notificationManager)

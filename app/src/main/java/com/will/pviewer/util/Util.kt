@@ -18,7 +18,7 @@ class Util {
         }
 
         fun makeToast(context: Context,content: String){
-            Toast.makeText(context,content,Toast.LENGTH_SHORT)
+            Toast.makeText(context,content,Toast.LENGTH_SHORT).show()
         }
     }
 }
