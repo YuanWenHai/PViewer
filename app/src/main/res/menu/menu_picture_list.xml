@@ -2,9 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/picture_toolbar_download_article"
+        android:id="@+id/picture_toolbar_download"
         android:title="@string/like"
         android:icon="@drawable/icon_favorite"
         app:showAsAction="always"
         />
+    <item
+        android:id='@+id/picture_toolbar_delete'
+        android:title="@string/delete"
+        app:showAsAction="never"/>
 </menu>

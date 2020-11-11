@@ -1,11 +1,8 @@
 package com.will.pviewer.articleDetail
 
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,7 +13,6 @@ import com.will.pviewer.articleDetail.adapter.PictureAdapter
 import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.articleDetail.viewModel.DetailViewModel
 import com.will.pviewer.databinding.FragmentPictureListBinding
-import com.will.pviewer.setting.LOG_TAG
 import com.will.pviewer.util.Util
 
 /**
@@ -65,9 +61,13 @@ class PictureListFragment(): Fragment() {
         detailViewModel.article.observe(viewLifecycleOwner){
             adapter.submitList(it.pictureList)
             binding.fragmentPictureListToolbar.title = it.article.title
+        }
+        detailViewModel.articleExistOnLocal.observe(viewLifecycleOwner){
             //toolbar menu的加载顺序较为靠后，若此处同步执行会因为找不到指定menu而导致数组越界，故将其post到ui线程中延后执行
             toolbar.post{
-                changeFavoriteState(it.article.exist,binding.fragmentPictureListToolbar)
+                val menuItem = binding.fragmentPictureListToolbar.menu[0]
+                menuItem.setIcon(if(it) R.drawable.icon_favorited else R.drawable.icon_favorite)
+                menuItem.isEnabled = !it
             }
         }
         detailViewModel.getArticle()
@@ -76,8 +76,8 @@ class PictureListFragment(): Fragment() {
     }
 
 
-    private fun changeFavoriteState(which: Boolean,toolbar: Toolbar){
-       toolbar.menu[0].setIcon(if(which) R.drawable.icon_favorited else R.drawable.icon_favorite)
+    private fun changeFavoriteState(which: Boolean,menu: MenuItem){
+        menu.setIcon(if(which) R.drawable.icon_favorited else R.drawable.icon_favorite)
     }
 
 
@@ -87,29 +87,20 @@ class PictureListFragment(): Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.picture_toolbar_download_article){
+        if(item.itemId == R.id.picture_toolbar_download){
             val article = detailViewModel.article.value
             article?.let {
-                if(article.article.exist){
-                    Util.makeToast(requireContext(),"The article is already downloaded")
-                    return true
-                }
-                val externalAvailable = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-                if(externalAvailable){
-                    val downloadDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                    if(downloadDir != null){
-                        val intent = DownloadService.buildIntent(requireContext(),article, downloadDir)
-                        requireContext().startService(intent)
-                    }else{
-                        Log.e(LOG_TAG,"cancel download,external storage directory is null!")
-                        Util.makeToast(requireContext(),"cannot open file system,download canceled")
+                item.isEnabled = false
+                detailViewModel.downloadBinder.value?.getService()?.download(article)?.observe(viewLifecycleOwner){
+                    if(it == DownloadService.STATUS_DOWNLOADED){
+                        changeFavoriteState(true,item)
+                        detailViewModel.articleExistOnLocal.value = true
                     }
-                }else{
-                    Util.makeToast(requireContext(),"cannot open file system,download canceled")
                 }
             }
-
             return true
+        }else if(item.itemId == R.id.picture_toolbar_delete){
+            // TODO: 2020/11/11  delete logic
         }
         return super.onOptionsItemSelected(item)
     }

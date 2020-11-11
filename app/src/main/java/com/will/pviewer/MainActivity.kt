@@ -1,6 +1,8 @@
 package com.will.pviewer
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.HandlerThread
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
+import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.databinding.ActivityMainBinding
@@ -25,6 +28,7 @@ import com.will.pviewer.setting.LOG_TAG
 // 2.androidx-navigation
 // 3.launching frame skipping
 // 4.favorite delete
+// 5.storage statistic and management
 class MainActivity : AppCompatActivity() {
 
 
@@ -44,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.mainToolbar)
@@ -57,10 +60,23 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.main_container,NavigationFragment()).commit()
         supportFragmentManager.addOnBackStackChangedListener{
             supportActionBar?.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
-
+        }
+        if(savedInstanceState == null){
+            initDownloadService()
         }
     }
 
+
+    private fun initDownloadService(){
+        val intent = Intent(this,DownloadService::class.java)
+        startService(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val intent = Intent(this,DownloadService::class.java)
+        stopService(intent)
+    }
 
 
    /* private fun init() {

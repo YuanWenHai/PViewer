@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.ArticleWithPicturesDao
 import com.will.pviewer.network.ApiService
@@ -20,7 +21,8 @@ import kotlin.coroutines.coroutineContext
 class DetailViewModel(private val articleId: Int,private val dao: ArticleWithPicturesDao,private val api: ApiService): ViewModel() {
     val article = MutableLiveData<ArticleWithPictures>()
     val currentIndex = MutableLiveData(0)
-
+    val downloadBinder: MutableLiveData<DownloadService.DownloadBinder> = MutableLiveData()
+    val articleExistOnLocal = MutableLiveData<Boolean>()
 
     fun getArticle(){
 
@@ -41,6 +43,7 @@ class DetailViewModel(private val articleId: Int,private val dao: ArticleWithPic
                 result = localResult
                 withContext(Main){
                     article.value = result
+                    articleExistOnLocal.value = result.article.exist
                 }
             }
 

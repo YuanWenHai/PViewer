@@ -1,8 +1,11 @@
 package com.will.pviewer.articleDetail
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.will.pviewer.R
+import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.articleDetail.viewModel.DetailViewModel
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.ArticleWithPictures
@@ -36,8 +40,23 @@ class ArticleDetailActivity: AppCompatActivity() {
         detailViewModel
         val binding = DataBindingUtil.setContentView<ActivityArticleDetailBinding>(this, R.layout.activity_article_detail)
         supportFragmentManager.beginTransaction().add(R.id.detail_container,PictureListFragment(),null).commit() //initialize()
+        bindDownloadService()
     }
 
+    private fun bindDownloadService(){
+        val intent = Intent(this, DownloadService::class.java)
+        bindService(intent,object: ServiceConnection{
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                service?.let {
+                    detailViewModel.downloadBinder.value = service as DownloadService.DownloadBinder
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                TODO("Not yet implemented")
+            }
+        }, BIND_AUTO_CREATE)
+    }
 
     companion object{
         //private const val ARTICLE_ACTIVITY_DATA = "article_activity_data"
