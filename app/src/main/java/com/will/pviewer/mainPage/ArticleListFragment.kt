@@ -53,13 +53,13 @@ import kotlinx.coroutines.launch
         )
         binding.fragmentArticleListRefresh.setOnRefreshListener { adapter.refresh()}
         binding.fragmentArticleListRefresh.setColorSchemeResources(R.color.colorPrimary)
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             Log.d(LOG_TAG,"start collect articles with series: ${getSeries().name} ")
             getDataFlow().collectLatest {
                 adapter.submitData(it)
             }
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             adapter.loadStateFlow.collectLatest {
                 binding.fragmentArticleListRefresh.isRefreshing = it.refresh is LoadState.Loading
                 binding.fragmentArticleListEmptyMsg.isVisible = adapter.itemCount == 0

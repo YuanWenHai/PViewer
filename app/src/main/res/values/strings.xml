@@ -8,5 +8,5 @@
     <string name="setting">Setting</string>
     <string name="empty_list_msg">No Data Yet</string>
     <string name="like">Like</string>
-    <string name="delete">Delete</string>
+    <string name="unlike">Unlike</string>
 </resources>

@@ -13,4 +13,5 @@ data class ArticleWithPictures(
     val pictureList: List<Picture>
 ): Serializable{
 
+
 }

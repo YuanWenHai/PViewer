@@ -13,7 +13,6 @@ import com.will.pviewer.R
 import com.will.pviewer.articleDetail.adapter.GalleryPagerAdapter
 import com.will.pviewer.articleDetail.viewModel.DetailViewModel
 import com.will.pviewer.databinding.FragmentGalleryBinding
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.setting.LOG_TAG
 
 

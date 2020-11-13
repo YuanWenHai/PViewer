@@ -1,5 +1,7 @@
 package com.will.pviewer.file
 
+import android.util.Log
+import com.will.pviewer.setting.LOG_TAG
 import java.io.*
 
 /**
@@ -12,7 +14,21 @@ class FileHelper {
             val writer = FileOutputStream(destFile)
             writer.write(stream.readBytes())
         }
-    }
 
+        fun deleteFile(file: File){
+            if(!file.exists() || !file.isFile){
+                Log.e(LOG_TAG,"try to delete a file that does not exits or not file")
+                return
+            }
+            file.delete()
+        }
+        fun deleteDirectoryRec(dir: File){
+            if(!dir.exists() || !dir.isDirectory){
+                Log.e(LOG_TAG,"try to delete dir that does not exist of not directory")
+                return
+            }
+            dir.deleteRecursively()
+        }
+    }
 
 }

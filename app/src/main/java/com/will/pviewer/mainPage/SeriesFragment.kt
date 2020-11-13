@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,7 +16,6 @@ import com.will.pviewer.R
 import com.will.pviewer.databinding.FragmentSeriesListBinding
 import com.will.pviewer.extension.withAnimation
 import com.will.pviewer.mainPage.adapter.SeriesAdapter
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
 
 /**

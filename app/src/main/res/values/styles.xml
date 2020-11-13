@@ -15,6 +15,10 @@
     <style name="AppActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
     </style>
+    <style name="AppActionBarPopupTheme" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">44dp</item>
+    </style>
     <style name="PersonalItemTheme">
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">15dp</item>

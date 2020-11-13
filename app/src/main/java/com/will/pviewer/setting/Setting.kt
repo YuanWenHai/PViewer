@@ -2,6 +2,7 @@ package com.will.pviewer.setting
 
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import java.io.File
 
 /**
@@ -22,4 +23,13 @@ fun getLocalDirectory(context: Context): File?{
         dir.mkdirs()
         dir
     }
+}
+
+fun getDownloadRootDir(context: Context): File?{
+    val externalAvailable = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
+    if(externalAvailable){
+        return context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    }
+    Log.e(LOG_TAG, "externalAvailable is false,cannot get app external storage directory")
+    return null
 }

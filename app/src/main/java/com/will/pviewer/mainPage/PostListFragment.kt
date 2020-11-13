@@ -1,10 +1,7 @@
 package com.will.pviewer.mainPage
 
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.Series
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.MainViewModel
 
 /**

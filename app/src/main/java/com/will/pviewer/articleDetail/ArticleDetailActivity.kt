@@ -23,7 +23,6 @@ import java.lang.IllegalArgumentException
 
 class ArticleDetailActivity: AppCompatActivity() {
 
-    // TODO: 2020/11/5  这里将修改数据逻辑，更新为从服务器加载
     private val detailViewModel: DetailViewModel by viewModels{
 
             object: ViewModelProvider.Factory {

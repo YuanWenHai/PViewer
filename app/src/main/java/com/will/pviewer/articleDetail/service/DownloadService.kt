@@ -21,6 +21,7 @@ import com.will.pviewer.extension.syncRemove
 import com.will.pviewer.network.PictureDownloadCallback
 import com.will.pviewer.network.PictureDownloader
 import com.will.pviewer.setting.LOG_TAG
+import com.will.pviewer.setting.getDownloadRootDir
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.util.*
@@ -46,7 +47,7 @@ class DownloadService: Service() {
     }
 
     private fun init(){
-        val dir = getDownloadRootDir()
+        val dir = getDownloadRootDir(this)
         if (dir == null){
             Log.e(LOG_TAG,"download directory is null, cancel thread start")
             return
@@ -66,19 +67,16 @@ class DownloadService: Service() {
         workHandler.post(runnable)
     }
 
-    private fun getDownloadRootDir(): File?{
-        val externalAvailable = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-        if(externalAvailable){
-             return getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        }
-        Log.e(LOG_TAG, "externalAvailable is false,cannot get app external storage directory")
-        return null
-    }
-
-
     fun download(article: ArticleWithPictures): LiveData<Int>?{
+        for(d in downloadQueue){
+            if(d.article.id == article.article.id){
+                Log.w(LOG_TAG,"operation canceled,the article ${article.article.title} is already in download queue")
+                return null
+            }
+        }
         for (d in downloadingList){
             if(d.article.id == article.article.id){
+                Log.w(LOG_TAG,"operation canceled,the article ${article.article.title} is already in downloading list")
                 return null
             }
         }

@@ -1,17 +1,13 @@
 package com.will.pviewer.mainPage
 
 import android.os.Bundle
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import com.will.pviewer.data.ArticleWithPictures
 import com.will.pviewer.data.Series
-import com.will.pviewer.mainPage.viewModel.AppViewModel
 import com.will.pviewer.mainPage.viewModel.ArticleListViewModel
-import com.will.pviewer.mainPage.viewModel.ArticleViewModel
-import com.will.pviewer.mainPage.viewModel.MainViewModel
 import com.will.pviewer.network.ApiServiceImp
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalArgumentException

@@ -17,7 +17,11 @@ interface ArticleWithPicturesDao {
     @Query("SELECT * FROM articles WHERE id = :id")
     fun getArticleWIthPicturesById(id: Int): ArticleWithPictures?
 
+    @Query("DELETE FROM articles WHERE id = :id ")
+    fun deleteArticleById(id: Int)
 
+    @Query("DELETE FROM pictures WHERE articleId = :articleId")
+    fun deletePictureByArticleId(articleId: Int)
     //todo
     //fun getArticlesWithPicturesByPage(pageSize: Int,pageCount: Int): LiveData<List<ArticleWithPictures>>
 
@@ -28,4 +32,6 @@ interface ArticleWithPicturesDao {
     @Transaction
     @Query("SELECT * FROM articles")
     fun getAllArticleWithPicturesInPaging(): PagingSource<Int,ArticleWithPictures>
+
+
 }
