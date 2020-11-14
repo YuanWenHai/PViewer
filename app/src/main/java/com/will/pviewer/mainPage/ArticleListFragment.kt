@@ -13,15 +13,14 @@ import androidx.paging.PagingData
 import com.will.pviewer.MainActivity
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.ArticleDetailActivity
-import com.will.pviewer.base.BaseFragment
+import com.will.pviewer.data.ArticleWithPictures
+import com.will.pviewer.data.Series
+import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.mainPage.adapter.ArticleListAdapter
 import com.will.pviewer.mainPage.adapter.ArticleListLoadStateAdapter
-import com.will.pviewer.data.*
-import com.will.pviewer.databinding.FragmentArticleListBinding
 import com.will.pviewer.setting.LOG_TAG
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * created  by will on 2020/8/23 16:29
