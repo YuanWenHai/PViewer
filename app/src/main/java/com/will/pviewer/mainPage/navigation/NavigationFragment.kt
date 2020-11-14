@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
+import com.will.pviewer.MainActivity
 import com.will.pviewer.R
 import com.will.pviewer.databinding.ActivityMainBinding
 import com.will.pviewer.databinding.FragmentNavigationBinding
@@ -18,7 +20,6 @@ import com.will.pviewer.mainPage.viewModel.MainViewModel
  * created  by will on 2020/11/4 17:49
  */
 class NavigationFragment: Fragment() {
-    private val mainViewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,13 +32,22 @@ class NavigationFragment: Fragment() {
 
     private fun initNavigation(binding: FragmentNavigationBinding){
 
+       /* val toolbar = binding.navigationToolbar
+        val fm = requireActivity().supportFragmentManager
+        (requireActivity() as MainActivity).setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener{
+            requireActivity().onBackPressed()
+        }
+        fm.addOnBackStackChangedListener{
+            requireActivity().actionBar?.setDisplayHomeAsUpEnabled(fm.backStackEntryCount > 0)
+        }*/
         val navigationAdapter = BottomNavigationAdapter(requireActivity())
         binding.navigationViewpager.adapter = navigationAdapter
         binding.navigationViewpager.offscreenPageLimit = 3
         binding.navigationViewpager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 binding.navigationView.selectedItemId = NavigationItems.values()[position].menuItemId()
-                mainViewModel.toolbarTitle.value = NavigationItems.values()[position].label()
+                binding.navigationToolbar.title = NavigationItems.values()[position].label()
             }
         })
 

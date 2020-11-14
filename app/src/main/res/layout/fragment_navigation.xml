@@ -8,7 +8,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/navigation_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/toolbar_height"
             android:theme="@style/AppActionBarTheme"/>
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/navigation_viewpager"
@@ -18,7 +18,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/navigation_height"
             app:menu="@menu/bottom_navigation"
             app:labelVisibilityMode="labeled"
             />

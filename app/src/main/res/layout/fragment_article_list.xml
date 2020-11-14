@@ -9,9 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/fragment_article_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:theme="@style/AppActionBarTheme"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            />
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/fragment_article_list_toolbar"
             android:id="@+id/fragment_article_list_refresh"
             >
             <androidx.recyclerview.widget.RecyclerView

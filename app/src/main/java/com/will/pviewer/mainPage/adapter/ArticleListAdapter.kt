@@ -18,7 +18,7 @@ import com.will.pviewer.util.Util
 /**
  * created  by will on 2020/8/25 11:24
  */
-class ArticleListAdapter(val itemClickCallback: (articleWithPictures: ArticleWithPictures) -> Unit): PagingDataAdapter<ArticleWithPictures, ArticleListAdapter.ViewHolder>(
+class ArticleListAdapter(private val itemClickCallback: (articleWithPictures: ArticleWithPictures) -> Unit): PagingDataAdapter<ArticleWithPictures, ArticleListAdapter.ViewHolder>(
     ArticleDiffCallback()
 ) {
 

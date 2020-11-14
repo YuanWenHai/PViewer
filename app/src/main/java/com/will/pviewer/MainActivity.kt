@@ -12,13 +12,15 @@ import com.will.pviewer.articleDetail.service.DownloadService
 import com.will.pviewer.data.AppDatabase
 import com.will.pviewer.data.ArticleWithPicturesRepository
 import com.will.pviewer.databinding.ActivityMainBinding
+import com.will.pviewer.mainPage.SplashFragment
 import com.will.pviewer.mainPage.navigation.NavigationFragment
 import com.will.pviewer.mainPage.viewModel.MainViewModel
 import com.will.pviewer.network.ApiServiceImp
 
 //todo
-// 3.launching frame skipping
-// 5.storage statistic and management
+// 1.storage statistic and management
+// 2.article brief view
+// 3.gallery view show image information
 class MainActivity : AppCompatActivity() {
 
 
@@ -39,15 +41,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setSupportActionBar(binding.mainToolbar)
-        binding.mainToolbar.setNavigationOnClickListener{
-            onBackPressed()
-        }
-        mainViewModel.toolbarTitle.observe(this){
-            binding.mainToolbar.title = it
-        }
-
-
+        mainViewModel
+        //supportFragmentManager.beginTransaction().add(R.id.main_container,SplashFragment(),null).commitNow()
         lateInit(binding)
         binding.root.post{
             if(savedInstanceState == null){
@@ -58,7 +53,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun lateInit(binding: ActivityMainBinding){
         binding.root.post{
-            supportFragmentManager.beginTransaction().add(R.id.main_container,NavigationFragment()).commit()
+            supportFragmentManager.beginTransaction()
+                //.setCustomAnimations(R.anim.fragment_fade_enter,R.anim.fragment_fade_exit,R.anim.fragment_fade_enter,R.anim.fragment_fade_exit)
+                .add(R.id.main_container,NavigationFragment()).commit()
             supportFragmentManager.addOnBackStackChangedListener{
                 supportActionBar?.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
             }

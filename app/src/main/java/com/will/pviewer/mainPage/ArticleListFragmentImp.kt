@@ -10,7 +10,6 @@ import com.will.pviewer.data.Series
 import com.will.pviewer.mainPage.viewModel.ArticleListViewModel
 import com.will.pviewer.network.ApiServiceImp
 import kotlinx.coroutines.flow.Flow
-import java.lang.IllegalArgumentException
 
 /**
  * created  by will on 2020/10/20 18:16
@@ -23,6 +22,11 @@ class  ArticleListFragmentImp private constructor(): ArticleListFragment() {
                 return ArticleListViewModel(ApiServiceImp.get(),getSeries().alias) as T
             }
         }
+    }
+
+
+    override fun useToolbar(): Boolean {
+        return true
     }
 
     override fun getSeries(): Series {

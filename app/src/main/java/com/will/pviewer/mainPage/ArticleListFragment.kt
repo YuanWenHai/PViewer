@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.will.pviewer.MainActivity
 import com.will.pviewer.R
 import com.will.pviewer.articleDetail.ArticleDetailActivity
 import com.will.pviewer.base.BaseFragment
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 /**
  * created  by will on 2020/8/23 16:29
  */
- abstract class ArticleListFragment: BaseFragment() {
+ abstract class ArticleListFragment: Fragment() {
 
    /* private val viewModel: ArticleListViewModel by viewModels{
         ArticleListViewModelFactory(
@@ -38,14 +40,28 @@ import kotlinx.coroutines.launch
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)?.let {
-            return it
-        }
+
         val binding = FragmentArticleListBinding.inflate(inflater,container,false)
         init(binding)
         return binding.root
     }
+
+    open fun useToolbar(): Boolean{
+        return false
+    }
     private fun init(binding: FragmentArticleListBinding){
+        binding.fragmentArticleListToolbar.apply {
+            if(useToolbar()){
+                val parent = (requireActivity() as MainActivity)
+                parent.setSupportActionBar(this)
+                parent.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                setNavigationOnClickListener {
+                    parent.onBackPressed()
+                }
+                visibility = View.VISIBLE
+                title = getSeries().name
+            }
+        }
         val adapter = ArticleListAdapter{item: ArticleWithPictures -> onItemClick(item)}
         binding.fragmentArticleListRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ArticleListLoadStateAdapter(adapter),

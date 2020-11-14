@@ -20,4 +20,8 @@ class FavoriteListFragment: ArticleListFragment() {
     override fun getDataFlow(): Flow<PagingData<ArticleWithPictures>> {
         return mainViewModel.favoriteFlow
     }
+
+    override fun useToolbar(): Boolean {
+        return true
+    }
 }
