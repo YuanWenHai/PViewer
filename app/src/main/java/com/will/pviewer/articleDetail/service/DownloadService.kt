@@ -112,7 +112,7 @@ class DownloadService: Service() {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val descriptionText = "A service that running for download article picture"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(SERVICE_NAME, SERVICE_NAME, importance).apply {
                 description = descriptionText
             }
