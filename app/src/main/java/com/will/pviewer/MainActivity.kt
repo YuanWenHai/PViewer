@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MainViewModel(
-                    ApiServiceImp.get(),
+                    ApiServiceImp.get(this@MainActivity),
                     ArticleWithPicturesRepository.getInstance(
                         AppDatabase.getInstance(this@MainActivity).articleWithPicturesDao()
                     )

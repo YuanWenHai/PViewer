@@ -14,6 +14,9 @@ const val LOG_TAG = "!~"
 
 const val LOCAL_PICTURE_RELATIVE_PATH = "/local/"
 
+const val SERVER_LIB_NET = "http://10.4.1.118:8080/"
+const val SERVER_HOME_NET = "http://192.168.50.68:8080/"
+
 fun getLocalDirectory(context: Context): File?{
     val base = context.externalCacheDir
     return if(base == null){

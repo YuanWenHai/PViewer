@@ -33,5 +33,9 @@ class PersonalFragment: Fragment() {
             Util.preventDoubleClick(it)
             parentFragmentManager.beginTransaction().withAnimation().replace(R.id.main_container,FavoriteListFragment()).addToBackStack(null).setReorderingAllowed(true).commit()
         }
+        binding.fragmentPersonalSetting.setOnClickListener{
+            Util.preventDoubleClick(it)
+            parentFragmentManager.beginTransaction().withAnimation().replace(R.id.main_container,SettingFragment()).addToBackStack(null).setReorderingAllowed(true).commit()
+        }
     }
 }

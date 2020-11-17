@@ -10,4 +10,6 @@
     <string name="like">Like</string>
     <string name="unlike">Unlike</string>
     <string name="splash_text">Loading…</string>
+    <string name="server">Server: %s</string>
+    <string name="change_server_button_text">Change</string>
 </resources>

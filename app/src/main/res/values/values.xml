@@ -2,4 +2,5 @@
 <resources>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="navigation_height">56dp</dimen>
+    <dimen name="setting_item_height">48dp</dimen>
 </resources>

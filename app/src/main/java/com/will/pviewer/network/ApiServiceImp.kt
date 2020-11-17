@@ -1,9 +1,11 @@
 package com.will.pviewer.network
 
+import android.content.Context
 import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.will.pviewer.setting.LOG_TAG
+import com.will.pviewer.sp.SPUtil
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -17,24 +19,28 @@ import java.net.ConnectException
 /**
  * created  by will on 2020/10/10 18:33
  */
-class ApiServiceImp private constructor(): ApiService {
+class ApiServiceImp private constructor(server: String) : ApiService {
 
     companion object{
         const val CONNECTION_ERROR = 666
-        //private const val BASE_URL = "http://10.4.1.118:8080/"
-        private const val BASE_URL = "http://192.168.50.68:8080/"
-        private val instance = ApiServiceImp()
-        fun get(): ApiService{
-            return instance
+        private const val BASE_URL = "http://10.4.1.118:8080/"
+        //private const val BASE_URL = "http://192.168.50.68:8080/"
+        @Volatile
+        private var instance: ApiServiceImp? = null
+
+        fun get(context: Context): ApiService{
+            val server = SPUtil.getCurrentServer(context)
+            return instance ?: synchronized(this){
+                instance ?: ApiServiceImp(server).also { instance = it }
+            }
         }
+
+
     }
-
-    private val imp = Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
-        .build()
-        .create(ApiService::class.java)
-
-
+    private val imp: ApiService = Retrofit.Builder().baseUrl(server)
+         .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(KotlinJsonAdapterFactory()).build()))
+         .build()
+         .create(ApiService::class.java)
 
     override suspend fun getArticleList(
         series: String,

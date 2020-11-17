@@ -27,7 +27,7 @@ class ArticleDetailActivity: AppCompatActivity() {
 
             object: ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailViewModel(getArticleId(this@ArticleDetailActivity),AppDatabase.getInstance(this@ArticleDetailActivity).articleWithPicturesDao(),ApiServiceImp.get()) as T
+                return DetailViewModel(getArticleId(this@ArticleDetailActivity),AppDatabase.getInstance(this@ArticleDetailActivity).articleWithPicturesDao(),ApiServiceImp.get(this@ArticleDetailActivity)) as T
             }
         }
     }

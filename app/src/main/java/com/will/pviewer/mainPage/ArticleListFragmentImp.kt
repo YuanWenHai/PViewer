@@ -19,7 +19,7 @@ class  ArticleListFragmentImp private constructor(): ArticleListFragment() {
     private val viewModel: ArticleListViewModel by viewModels{
         object: ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return ArticleListViewModel(ApiServiceImp.get(),getSeries().alias) as T
+                return ArticleListViewModel(ApiServiceImp.get(requireContext()),getSeries().alias) as T
             }
         }
     }
